@@ -1,0 +1,140 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta charset="utf-8" />
+    <link rel="stylesheet" href={% static 'entreprise_app/css/globals1.css' %} />
+    <link rel="stylesheet" href={% static 'entreprise_app/css/styleguide1.css' %} />
+    <link rel="stylesheet" href={% static 'entreprise_app/css/style1.css' %} />
+  </head>
+  <body>
+    <div class="entreprise-dashboard">
+      <div class="div">
+        <div class="nav-bar">
+          <div class="overlap">
+            <div class="line"></div>
+            <div class="overlap-group">
+              <div class="katie-pena">Safia Tirar</div>
+              <div class="user">
+                <div class="admin">Administrateur</div>
+                <img class="image" src="img/image-2.png" />
+              </div>
+            </div>
+            <div class="icon">
+              <div class="overlap-group-2">
+                <div class="div-wrapper">
+                  <div class="ic-notifications"><img class="shape" src="img/shape.svg" /></div>
+                </div>
+                <div class="shape-2"></div>
+              </div>
+            </div>
+            <div class="search">
+              <div class="text-wrapper">Recherche…</div>
+              <div class="ic-search"><img class="img" src="img/shape-2.svg" /></div>
+            </div>
+          </div>
+          <div class="ic-help"><img class="shape-3" src="img/shape-4.svg" /></div>
+        </div>
+        <img class="sign-in" src="img/sign-in.png" />
+        <img class="forgot-password" src="img/forgot-password.png" />
+        <img class="new-password" src="img/new-password.png" />
+        <img class="sign-in-filled" src="img/sign-in-filled.png" />
+        <img class="sign-up-filled" src="img/sign-up-filled.png" />
+        <img class="sign-up" src="img/sign-up.png" />
+        <div class="card">
+          <div class="overlap-2">
+            <img class="ic-more-vert" src="img/ic-more-vert.png" />
+            <div class="top-performance">Liste des entreprises</div>
+            <div class="list">
+              <!-- Affichage dynamique des entreprises -->
+              {% for entreprise in entreprises %}
+              <div class="list-item">
+                <div class="group">
+                  <div class="text-wrapper-2">{{ entreprise.nom_entreprise }}</div>
+                  <div class="text-wrapper-3">{{ entreprise.secteur }}</div>
+                  <div class="text-wrapper-4">{{ entreprise.ville }}</div>
+                  <div class="text-wrapper-5">{{ entreprise.forme_juridique }}</div>
+                  <div class="text-wrapper-6">{{ entreprise.contact }}</div>
+                </div>
+                <div class="frame">
+                  <a href="{% url 'modifier_entreprise' entreprise.id %}"><img class="vector" src="img/vector.svg" /></a>
+                  <a href="{% url 'supprimer_entreprise' entreprise.id %}"><img class="noun-delete" src="img/noun-delete-7401663-1-2.svg" /></a>
+                </div>
+              </div>
+              {% endfor %}
+              <!-- ...existing code for static list... -->
+            </div>
+            <!-- ...existing code... -->
+          </div>
+        </div>
+        <div class="pagination">
+          <div class="pagination-previous">
+            <img class="img-2" src="img/arrow-left.svg" />
+            <div class="previous">Avant</div>
+          </div>
+          <div class="pagination-list">
+            <div class="pagination-page"><div class="text-wrapper-23">1</div></div>
+            <div class="element-wrapper"><div class="text-wrapper-24">2</div></div>
+            <div class="element-wrapper"><div class="text-wrapper-24">3</div></div>
+            <div class="pagination-gap"><div class="text-wrapper-25">...</div></div>
+            <div class="element-wrapper"><div class="text-wrapper-24">67</div></div>
+            <div class="element-wrapper"><div class="text-wrapper-24">68</div></div>
+          </div>
+          <div class="pagination-next">
+            <div class="text-wrapper-24">Suivant</div>
+            <img class="img-2" src="img/arrow-right.svg" />
+          </div>
+        </div>
+        <div class="imprimer">
+          <div class="vector-wrapper"><img class="vector-2" src="img/vector-2.svg" /></div>
+        </div>
+        <!-- Bouton ajouter entreprise -->
+        <a href="{% url 'ajouter_entreprise' %}"><button class="button">
+          <div class="add-dashlet-wrapper"><div class="add-dashlet">+ Entreprise</div></div>
+        </button></a>
+        <div class="sidebar">
+          <div class="overlap-5">
+            <img class="line-3" src="img/line.svg" />
+            <div class="menus">
+              <div class="menu">
+                <div class="item">
+                  <div class="overview">Tableau de bord</div>
+                  <div class="ic-dashboard"><img class="shape-5" src="img/shape-5.svg" /></div>
+                </div>
+              </div>
+              <div class="menu-2">
+                <img class="ic-chevron-right" src="img/ic-chevron-right-2.png" />
+                <div class="business">Client</div>
+                <div class="ic-store"></div>
+              </div>
+              <div class="menu-3">
+                <img class="ic-chevron-right" src="img/image.png" />
+                <div class="sales">Personne morale</div>
+                <div class="paid"></div>
+              </div>
+              <a href="index.html"
+                ><div class="menu-4">
+                  <img class="ic-chevron-right" src="img/ic-chevron-right.png" />
+                  <div class="transactions">Entreprise</div>
+                  <div class="ic-payment"></div></div
+              ></a>
+            </div>
+            <div class="logo">
+              <div class="div-wrapper">
+                <div class="overlap-group-4">
+                  <div class="shape-6"></div>
+                  <div class="shape-7"></div>
+                  <div class="shape-8"></div>
+                </div>
+              </div>
+              <div class="rhombus">X</div>
+            </div>
+          </div>
+          <div class="ic-menu"><img class="shape-9" src="img/shape-3.svg" /></div>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>

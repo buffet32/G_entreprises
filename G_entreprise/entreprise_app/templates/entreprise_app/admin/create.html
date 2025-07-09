@@ -1,0 +1,144 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta charset="utf-8" />
+    <link rel="stylesheet" href={% static 'entreprise_app/css/globals.css' %} />
+    <link rel="stylesheet" href={% static 'entreprise_app/css/styleguide.css' %} />
+    <link rel="stylesheet" href={% static 'entreprise_app/css/style.css' %} />
+  </head>
+  <body>
+    <div class="creationdashboard">
+      <div class="div">
+        <div class="nav-bar">
+          <div class="overlap">
+            <div class="line"></div>
+            <div class="overlap-group">
+              <div class="katie-pena">Safia Tirar</div>
+              <div class="user">
+                <div class="admin">Administrateur</div>
+                <img class="image" src="img/image-2.png" />
+              </div>
+            </div>
+            <div class="icon">
+              <div class="overlap-group-2">
+                <div class="div-wrapper">
+                  <div class="ic-notifications"><img class="shape" src="img/shape-6.svg" /></div>
+                </div>
+                <div class="shape-2"></div>
+              </div>
+            </div>
+            <div class="search">
+              <div class="ic-search"><img class="img" src="img/shape-3.svg" /></div>
+            </div>
+          </div>
+          <div class="ic-help"><img class="shape-3" src="img/shape-4.svg" /></div>
+        </div>
+        <img class="sign-in" src="img/sign-in.png" />
+        <img class="forgot-password" src="img/forgot-password.png" />
+        <img class="new-password" src="img/new-password.png" />
+        <img class="sign-in-filled" src="img/sign-in-filled.png" />
+        <img class="sign-up-filled" src="img/sign-up-filled.png" />
+        <img class="sign-up" src="img/sign-up.png" />
+        <div class="card">
+          <div class="overlap-2">
+            <form method="post">
+              {% csrf_token %}
+              <div class="form">
+                <div class="type-your-product-na-wrapper">
+                  <p class="type-your-product-na">Tapez le nom de votre entreprise</p>
+                </div>
+                <div class="product-name">Nom d‘entreprise</div>
+                <input type="text" name="nom_entreprise" class="input" placeholder="Nom d’entreprise" value="{{ request.POST.nom_entreprise|default:'' }}" required>
+              </div>
+              <div class="form-2">
+                <div class="text-wrapper">ICE</div>
+                <input type="text" name="code_ice" class="input" placeholder="ICE" value="{{ request.POST.code_ice|default:'' }}" required>
+              </div>
+              <div class="form-2">
+                <div class="text-wrapper">Secteur</div>
+                <input type="text" name="secteur" class="input" placeholder="Secteur" value="{{ request.POST.secteur|default:'' }}" required>
+              </div>
+              <div class="form-2">
+                <div class="text-wrapper">Forme juridique</div>
+                <select name="forme_juridique" class="input" required>
+                  {% for value, label in form.forme_juridique.field.choices %}
+                    {% if value %}
+                      <option value="{{ value }}" {% if form.forme_juridique.value == value %}selected{% endif %}>{{ label }}</option>
+                    {% endif %}
+                  {% endfor %}
+                </select>
+              </div>
+              <div class="form-2">
+                <div class="text-wrapper">Ville</div>
+                <input type="text" name="ville" class="input" placeholder="Ville" value="{{ request.POST.ville|default:'' }}" required>
+              </div>
+              <div class="form-2">
+                <div class="text-wrapper">Adresse</div>
+                <input type="text" name="adresse" class="input" placeholder="Adresse" value="{{ request.POST.adresse|default:'' }}" required>
+              </div>
+              <div class="form-2">
+                <div class="text-wrapper">Activité</div>
+                <input type="text" name="activite" class="input" placeholder="Activité" value="{{ request.POST.activite|default:'' }}" required>
+              </div>
+              <div class="form-2">
+                <div class="text-wrapper">Contact</div>
+                <input type="text" name="contact" class="input" placeholder="Contact" value="{{ request.POST.contact|default:'' }}">
+              </div>
+              <div class="form-2">
+                <div class="text-wrapper">Email</div>
+                <input type="email" name="email" class="input" placeholder="Email" value="{{ request.POST.email|default:'' }}">
+              </div>
+              <button type="submit" class="button">
+                <div class="overlap-5">
+                  <div class="base-3"></div>
+                  <div class="create-product-wrapper"><div class="create-product">Envoyer</div></div>
+                </div>
+              </button>
+            </form>
+          </div>
+        </div>
+        <div class="sidebar">
+          <div class="overlap-6">
+            <img class="line-3" src="img/line.svg" />
+            <div class="menus">
+              <div class="menu">
+                <div class="item">
+                  <div class="overview">Tableau de bord</div>
+                  <div class="ic-dashboard"><img class="shape-11" src="img/shape-8.svg" /></div>
+                </div>
+              </div>
+              <div class="menu-2">
+                <img class="ic-chevron-right" src="img/ic-chevron-right-3.png" />
+                <div class="business">Client</div>
+                <div class="ic-store"></div>
+              </div>
+              <div class="menu-3">
+                <img class="ic-chevron-right" src="img/ic-chevron-right-2.png" />
+                <div class="sales">Personne morale</div>
+                <div class="paid"></div>
+              </div>
+              <div class="menu-4">
+                <img class="ic-chevron-right" src="img/ic-chevron-right.png" />
+                <div class="transactions">Entreprise</div>
+                <div class="ic-payment"></div>
+              </div>
+            </div>
+            <div class="logo">
+              <div class="div-wrapper">
+                <div class="overlap-group-5">
+                  <div class="shape-12"></div>
+                  <div class="shape-13"></div>
+                  <div class="shape-14"></div>
+                </div>
+              </div>
+              <div class="rhombus">X</div>
+            </div>
+          </div>
+          <div class="ic-menu"><img class="shape-15" src="img/shape-7.svg" /></div>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>

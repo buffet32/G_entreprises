@@ -1,0 +1,1253 @@
+.entreprise-dashboard {
+  background-color: #f9f9f9;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  width: 100%;
+}
+
+.entreprise-dashboard .div {
+  background-color: #f9f9f9;
+  overflow: hidden;
+  width: 1920px;
+  height: 1181px;
+  position: relative;
+}
+
+.entreprise-dashboard .nav-bar {
+  position: absolute;
+  width: 1922px;
+  height: 72px;
+  top: 0;
+  left: 0;
+}
+
+.entreprise-dashboard .overlap {
+  position: absolute;
+  width: 1920px;
+  height: 72px;
+  top: 0;
+  left: 0;
+  background-color: var(--dark6-white);
+}
+
+.entreprise-dashboard .line {
+  position: absolute;
+  width: 1920px;
+  height: 1px;
+  top: 71px;
+  left: 0;
+  background-color: var(--line1-line);
+}
+
+.entreprise-dashboard .overlap-group {
+  position: absolute;
+  width: 135px;
+  height: 32px;
+  top: 20px;
+  left: 1783px;
+}
+
+.entreprise-dashboard .katie-pena {
+  position: absolute;
+  top: 0;
+  left: 40px;
+  font-family: var(--headline-h5-medium-font-family);
+  font-weight: var(--headline-h5-medium-font-weight);
+  color: #202020;
+  font-size: var(--headline-h5-medium-font-size);
+  letter-spacing: var(--headline-h5-medium-letter-spacing);
+  line-height: var(--headline-h5-medium-line-height);
+  font-style: var(--headline-h5-medium-font-style);
+}
+
+.entreprise-dashboard .user {
+  position: absolute;
+  width: 135px;
+  height: 32px;
+  top: 0;
+  left: 0;
+}
+
+.entreprise-dashboard .admin {
+  position: absolute;
+  top: 17px;
+  left: 40px;
+  font-family: var(--headline-h6-regular-font-family);
+  font-weight: var(--headline-h6-regular-font-weight);
+  color: var(--dark3-dark);
+  font-size: var(--headline-h6-regular-font-size);
+  letter-spacing: var(--headline-h6-regular-letter-spacing);
+  line-height: var(--headline-h6-regular-line-height);
+  font-style: var(--headline-h6-regular-font-style);
+}
+
+.entreprise-dashboard .image {
+  position: absolute;
+  width: 32px;
+  height: 32px;
+  top: 0;
+  left: 0;
+  object-fit: cover;
+}
+
+.entreprise-dashboard .icon {
+  position: absolute;
+  width: 24px;
+  height: 24px;
+  top: 24px;
+  left: 1735px;
+}
+
+.entreprise-dashboard .overlap-group-2 {
+  position: relative;
+  width: 25px;
+  height: 25px;
+  top: -1px;
+}
+
+.entreprise-dashboard .div-wrapper {
+  position: absolute;
+  width: 24px;
+  height: 24px;
+  top: 1px;
+  left: 0;
+}
+
+.entreprise-dashboard .ic-notifications {
+  position: relative;
+  height: 24px;
+  top: -1525px;
+  left: -7744px;
+  background-image: url(./img/bounds-3.svg);
+  background-size: 100% 100%;
+}
+
+.entreprise-dashboard .shape {
+  position: absolute;
+  width: 17px;
+  height: 20px;
+  top: 2px;
+  left: 4px;
+}
+
+.entreprise-dashboard .shape-2 {
+  position: absolute;
+  width: 10px;
+  height: 10px;
+  top: 0;
+  left: 15px;
+  background-color: var(--color-sign-alert);
+  border-radius: 5px;
+  border: 2px solid;
+  border-color: var(--dark6-white);
+}
+
+.entreprise-dashboard .search {
+  position: absolute;
+  width: 300px;
+  height: 32px;
+  top: 20px;
+  left: 282px;
+  background-color: var(--dark5-dark);
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.entreprise-dashboard .text-wrapper {
+  position: absolute;
+  height: 17px;
+  top: 7px;
+  left: 30px;
+  font-family: var(--headline-h5-regular-font-family);
+  font-weight: var(--headline-h5-regular-font-weight);
+  color: var(--dark3-dark);
+  font-size: var(--headline-h5-regular-font-size);
+  letter-spacing: var(--headline-h5-regular-letter-spacing);
+  line-height: var(--headline-h5-regular-line-height);
+  font-style: var(--headline-h5-regular-font-style);
+}
+
+.entreprise-dashboard .ic-search {
+  position: absolute;
+  width: 16px;
+  height: 16px;
+  top: -1537px;
+  left: -8020px;
+  background-image: url(./img/image.svg);
+  background-size: 100% 100%;
+}
+
+.entreprise-dashboard .img {
+  position: absolute;
+  width: 12px;
+  height: 12px;
+  top: 2px;
+  left: 2px;
+}
+
+.entreprise-dashboard .ic-help {
+  position: absolute;
+  width: 24px;
+  height: 24px;
+  top: -1501px;
+  left: -6049px;
+  background-image: url(./img/bounds.svg);
+  background-size: 100% 100%;
+}
+
+.entreprise-dashboard .shape-3 {
+  position: absolute;
+  width: 20px;
+  height: 20px;
+  top: 2px;
+  left: 2px;
+}
+
+.entreprise-dashboard .sign-in {
+  left: -11981px;
+  position: absolute;
+  width: 1920px;
+  height: 900px;
+  top: -7516px;
+}
+
+.entreprise-dashboard .forgot-password {
+  position: absolute;
+  width: 1920px;
+  height: 900px;
+  top: -7516px;
+  left: -3768px;
+}
+
+.entreprise-dashboard .new-password {
+  position: absolute;
+  width: 1920px;
+  height: 900px;
+  top: -7516px;
+  left: -1715px;
+}
+
+.entreprise-dashboard .sign-in-filled {
+  position: absolute;
+  width: 1920px;
+  height: 900px;
+  top: -7516px;
+  left: -7875px;
+}
+
+.entreprise-dashboard .sign-up-filled {
+  position: absolute;
+  width: 1920px;
+  height: 900px;
+  top: -7516px;
+  left: -5821px;
+}
+
+.entreprise-dashboard .sign-up {
+  left: -9928px;
+  position: absolute;
+  width: 1920px;
+  height: 900px;
+  top: -7516px;
+}
+
+.entreprise-dashboard .card {
+  position: absolute;
+  width: 1514px;
+  height: 454px;
+  top: 194px;
+  left: 317px;
+}
+
+.entreprise-dashboard .overlap-2 {
+  position: relative;
+  width: 1512px;
+  height: 454px;
+  background-color: var(--shapecard);
+  border-radius: 12px;
+  box-shadow: var(--shadow-1-shadow);
+}
+
+.entreprise-dashboard .ic-more-vert {
+  position: absolute;
+  width: 49px;
+  height: 24px;
+  top: 32px;
+  left: 1398px;
+}
+
+.entreprise-dashboard .top-performance {
+  position: absolute;
+  width: 405px;
+  top: 32px;
+  left: 65px;
+  font-family: var(--headline-h2-font-family);
+  font-weight: var(--headline-h2-font-weight);
+  color: var(--dark1-dark);
+  font-size: var(--headline-h2-font-size);
+  letter-spacing: var(--headline-h2-letter-spacing);
+  line-height: var(--headline-h2-line-height);
+  font-style: var(--headline-h2-font-style);
+}
+
+.entreprise-dashboard .list {
+  position: absolute;
+  width: 1447px;
+  height: 336px;
+  top: 102px;
+  left: 32px;
+}
+
+.entreprise-dashboard .list-2 {
+  top: 48px;
+  background-color: var(--dark5-dark);
+  position: absolute;
+  width: 1447px;
+  height: 72px;
+  left: 0;
+}
+
+.entreprise-dashboard .group {
+  width: 1120px;
+  top: 30px;
+  left: 41px;
+  position: absolute;
+  height: 17px;
+}
+
+.entreprise-dashboard .text-wrapper-2 {
+  position: absolute;
+  width: 195px;
+  top: 0;
+  left: 0;
+  font-family: var(--headline-h5-medium-font-family);
+  font-weight: var(--headline-h5-medium-font-weight);
+  color: #000000;
+  font-size: var(--headline-h5-medium-font-size);
+  letter-spacing: var(--headline-h5-medium-letter-spacing);
+  line-height: var(--headline-h5-medium-line-height);
+  font-style: var(--headline-h5-medium-font-style);
+}
+
+.entreprise-dashboard .text-wrapper-3 {
+  position: absolute;
+  width: 86px;
+  top: 0;
+  left: 312px;
+  font-family: var(--headline-h5-medium-font-family);
+  font-weight: var(--headline-h5-medium-font-weight);
+  color: #000000;
+  font-size: var(--headline-h5-medium-font-size);
+  letter-spacing: var(--headline-h5-medium-letter-spacing);
+  line-height: var(--headline-h5-medium-line-height);
+  font-style: var(--headline-h5-medium-font-style);
+}
+
+.entreprise-dashboard .text-wrapper-4 {
+  position: absolute;
+  width: 70px;
+  top: 0;
+  left: 539px;
+  font-family: var(--headline-h5-medium-font-family);
+  font-weight: var(--headline-h5-medium-font-weight);
+  color: #000000;
+  font-size: var(--headline-h5-medium-font-size);
+  letter-spacing: var(--headline-h5-medium-letter-spacing);
+  line-height: var(--headline-h5-medium-line-height);
+  font-style: var(--headline-h5-medium-font-style);
+}
+
+.entreprise-dashboard .text-wrapper-5 {
+  position: absolute;
+  width: 40px;
+  top: 0;
+  left: 742px;
+  font-family: var(--headline-h5-medium-font-family);
+  font-weight: var(--headline-h5-medium-font-weight);
+  color: #000000;
+  font-size: var(--headline-h5-medium-font-size);
+  letter-spacing: var(--headline-h5-medium-letter-spacing);
+  line-height: var(--headline-h5-medium-line-height);
+  font-style: var(--headline-h5-medium-font-style);
+}
+
+.entreprise-dashboard .text-wrapper-6 {
+  position: absolute;
+  width: 122px;
+  top: 0;
+  left: 988px;
+  font-family: var(--headline-h5-medium-font-family);
+  font-weight: var(--headline-h5-medium-font-weight);
+  color: #000000;
+  font-size: var(--headline-h5-medium-font-size);
+  letter-spacing: var(--headline-h5-medium-letter-spacing);
+  line-height: var(--headline-h5-medium-line-height);
+  font-style: var(--headline-h5-medium-font-style);
+}
+
+.entreprise-dashboard .frame {
+  top: 30px;
+  left: 1268px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 13px;
+  position: absolute;
+}
+
+.entreprise-dashboard .vector {
+  position: relative;
+  width: 17px;
+  height: 17px;
+}
+
+.entreprise-dashboard .noun-delete {
+  position: relative;
+  width: 19px;
+  height: 17px;
+}
+
+.entreprise-dashboard .list-3 {
+  top: 120px;
+  background-color: var(--dark6-white);
+  position: absolute;
+  width: 1447px;
+  height: 72px;
+  left: 0;
+}
+
+.entreprise-dashboard .group-2 {
+  width: 1121px;
+  top: 24px;
+  left: 40px;
+  position: absolute;
+  height: 17px;
+}
+
+.entreprise-dashboard .text-wrapper-7 {
+  position: absolute;
+  width: 153px;
+  top: 0;
+  left: 0;
+  font-family: var(--headline-h5-medium-font-family);
+  font-weight: var(--headline-h5-medium-font-weight);
+  color: #000000;
+  font-size: var(--headline-h5-medium-font-size);
+  letter-spacing: var(--headline-h5-medium-letter-spacing);
+  line-height: var(--headline-h5-medium-line-height);
+  font-style: var(--headline-h5-medium-font-style);
+}
+
+.entreprise-dashboard .text-wrapper-8 {
+  position: absolute;
+  width: 86px;
+  top: 0;
+  left: 313px;
+  font-family: var(--headline-h5-medium-font-family);
+  font-weight: var(--headline-h5-medium-font-weight);
+  color: #000000;
+  font-size: var(--headline-h5-medium-font-size);
+  letter-spacing: var(--headline-h5-medium-letter-spacing);
+  line-height: var(--headline-h5-medium-line-height);
+  font-style: var(--headline-h5-medium-font-style);
+}
+
+.entreprise-dashboard .text-wrapper-9 {
+  width: 70px;
+  left: 540px;
+  position: absolute;
+  top: 0;
+  font-family: var(--headline-h5-medium-font-family);
+  font-weight: var(--headline-h5-medium-font-weight);
+  color: #000000;
+  font-size: var(--headline-h5-medium-font-size);
+  letter-spacing: var(--headline-h5-medium-letter-spacing);
+  line-height: var(--headline-h5-medium-line-height);
+  font-style: var(--headline-h5-medium-font-style);
+}
+
+.entreprise-dashboard .text-wrapper-10 {
+  position: absolute;
+  width: 40px;
+  top: 0;
+  left: 743px;
+  font-family: var(--headline-h5-medium-font-family);
+  font-weight: var(--headline-h5-medium-font-weight);
+  color: #000000;
+  font-size: var(--headline-h5-medium-font-size);
+  letter-spacing: var(--headline-h5-medium-letter-spacing);
+  line-height: var(--headline-h5-medium-line-height);
+  font-style: var(--headline-h5-medium-font-style);
+}
+
+.entreprise-dashboard .text-wrapper-11 {
+  position: absolute;
+  width: 122px;
+  top: 0;
+  left: 989px;
+  font-family: var(--headline-h5-medium-font-family);
+  font-weight: var(--headline-h5-medium-font-weight);
+  color: #000000;
+  font-size: var(--headline-h5-medium-font-size);
+  letter-spacing: var(--headline-h5-medium-letter-spacing);
+  line-height: var(--headline-h5-medium-line-height);
+  font-style: var(--headline-h5-medium-font-style);
+}
+
+.entreprise-dashboard .frame-2 {
+  top: 24px;
+  left: 1270px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 13px;
+  position: absolute;
+}
+
+.entreprise-dashboard .list-4 {
+  top: 192px;
+  background-color: var(--dark5-dark);
+  position: absolute;
+  width: 1447px;
+  height: 72px;
+  left: 0;
+}
+
+.entreprise-dashboard .overlap-group-3 {
+  position: absolute;
+  width: 72px;
+  height: 20px;
+  top: 24px;
+  left: 1270px;
+}
+
+.entreprise-dashboard .rate {
+  position: absolute;
+  width: 32px;
+  height: 16px;
+  top: 4px;
+  left: 39px;
+}
+
+.entreprise-dashboard .shape-4 {
+  position: relative;
+  width: 34px;
+  height: 18px;
+  top: -1px;
+  left: -1px;
+  border-radius: 17.21px / 9px;
+  border: 2px solid;
+  border-color: var(--dark5-dark);
+}
+
+.entreprise-dashboard .frame-3 {
+  top: 0;
+  left: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 13px;
+  position: absolute;
+}
+
+.entreprise-dashboard .group-3 {
+  width: 1104px;
+  top: 28px;
+  left: 40px;
+  position: absolute;
+  height: 17px;
+}
+
+.entreprise-dashboard .text-wrapper-12 {
+  position: absolute;
+  width: 209px;
+  top: 0;
+  left: 0;
+  font-family: var(--headline-h5-medium-font-family);
+  font-weight: var(--headline-h5-medium-font-weight);
+  color: #000000;
+  font-size: var(--headline-h5-medium-font-size);
+  letter-spacing: var(--headline-h5-medium-letter-spacing);
+  line-height: var(--headline-h5-medium-line-height);
+  font-style: var(--headline-h5-medium-font-style);
+}
+
+.entreprise-dashboard .text-wrapper-13 {
+  position: absolute;
+  width: 120px;
+  top: 0;
+  left: 313px;
+  font-family: var(--headline-h5-medium-font-family);
+  font-weight: var(--headline-h5-medium-font-weight);
+  color: #000000;
+  font-size: var(--headline-h5-medium-font-size);
+  letter-spacing: var(--headline-h5-medium-letter-spacing);
+  line-height: var(--headline-h5-medium-line-height);
+  font-style: var(--headline-h5-medium-font-style);
+}
+
+.entreprise-dashboard .text-wrapper-14 {
+  position: absolute;
+  width: 84px;
+  top: 0;
+  left: 540px;
+  font-family: var(--headline-h5-medium-font-family);
+  font-weight: var(--headline-h5-medium-font-weight);
+  color: #000000;
+  font-size: var(--headline-h5-medium-font-size);
+  letter-spacing: var(--headline-h5-medium-letter-spacing);
+  line-height: var(--headline-h5-medium-line-height);
+  font-style: var(--headline-h5-medium-font-style);
+}
+
+.entreprise-dashboard .text-wrapper-15 {
+  position: absolute;
+  width: 50px;
+  top: 0;
+  left: 743px;
+  font-family: var(--headline-h5-medium-font-family);
+  font-weight: var(--headline-h5-medium-font-weight);
+  color: #000000;
+  font-size: var(--headline-h5-medium-font-size);
+  letter-spacing: var(--headline-h5-medium-letter-spacing);
+  line-height: var(--headline-h5-medium-line-height);
+  font-style: var(--headline-h5-medium-font-style);
+}
+
+.entreprise-dashboard .text-wrapper-16 {
+  position: absolute;
+  width: 105px;
+  top: 0;
+  left: 989px;
+  font-family: var(--headline-h5-medium-font-family);
+  font-weight: var(--headline-h5-medium-font-weight);
+  color: #000000;
+  font-size: var(--headline-h5-medium-font-size);
+  letter-spacing: var(--headline-h5-medium-letter-spacing);
+  line-height: var(--headline-h5-medium-line-height);
+  font-style: var(--headline-h5-medium-font-style);
+}
+
+.entreprise-dashboard .list-5 {
+  top: 264px;
+  background-color: var(--dark6-white);
+  position: absolute;
+  width: 1447px;
+  height: 72px;
+  left: 0;
+}
+
+.entreprise-dashboard .overlap-3 {
+  position: absolute;
+  width: 70px;
+  height: 20px;
+  top: 24px;
+  left: 1270px;
+}
+
+.entreprise-dashboard .shape-wrapper {
+  position: absolute;
+  width: 32px;
+  height: 16px;
+  top: 4px;
+  left: 37px;
+}
+
+.entreprise-dashboard .group-4 {
+  width: 1140px;
+  top: 28px;
+  left: 40px;
+  position: absolute;
+  height: 17px;
+}
+
+.entreprise-dashboard .text-wrapper-17 {
+  position: absolute;
+  width: 272px;
+  top: 0;
+  left: 0;
+  font-family: var(--headline-h5-medium-font-family);
+  font-weight: var(--headline-h5-medium-font-weight);
+  color: #000000;
+  font-size: var(--headline-h5-medium-font-size);
+  letter-spacing: var(--headline-h5-medium-letter-spacing);
+  line-height: var(--headline-h5-medium-line-height);
+  font-style: var(--headline-h5-medium-font-style);
+}
+
+.entreprise-dashboard .text-wrapper-18 {
+  width: 101px;
+  left: 313px;
+  position: absolute;
+  top: 0;
+  font-family: var(--headline-h5-medium-font-family);
+  font-weight: var(--headline-h5-medium-font-weight);
+  color: #000000;
+  font-size: var(--headline-h5-medium-font-size);
+  letter-spacing: var(--headline-h5-medium-letter-spacing);
+  line-height: var(--headline-h5-medium-line-height);
+  font-style: var(--headline-h5-medium-font-style);
+}
+
+.entreprise-dashboard .text-wrapper-19 {
+  position: absolute;
+  width: 90px;
+  top: 0;
+  left: 540px;
+  font-family: var(--headline-h5-medium-font-family);
+  font-weight: var(--headline-h5-medium-font-weight);
+  color: #000000;
+  font-size: var(--headline-h5-medium-font-size);
+  letter-spacing: var(--headline-h5-medium-letter-spacing);
+  line-height: var(--headline-h5-medium-line-height);
+  font-style: var(--headline-h5-medium-font-style);
+}
+
+.entreprise-dashboard .text-wrapper-20 {
+  position: absolute;
+  width: 41px;
+  top: 0;
+  left: 743px;
+  font-family: var(--headline-h5-medium-font-family);
+  font-weight: var(--headline-h5-medium-font-weight);
+  color: #000000;
+  font-size: var(--headline-h5-medium-font-size);
+  letter-spacing: var(--headline-h5-medium-letter-spacing);
+  line-height: var(--headline-h5-medium-line-height);
+  font-style: var(--headline-h5-medium-font-style);
+}
+
+.entreprise-dashboard .text-wrapper-21 {
+  position: absolute;
+  width: 141px;
+  top: 0;
+  left: 989px;
+  font-family: var(--headline-h5-medium-font-family);
+  font-weight: var(--headline-h5-medium-font-weight);
+  color: #000000;
+  font-size: var(--headline-h5-medium-font-size);
+  letter-spacing: var(--headline-h5-medium-letter-spacing);
+  line-height: var(--headline-h5-medium-line-height);
+  font-style: var(--headline-h5-medium-font-style);
+}
+
+.entreprise-dashboard .title {
+  position: absolute;
+  width: 1447px;
+  height: 48px;
+  top: 0;
+  left: 0;
+}
+
+.entreprise-dashboard .overlap-4 {
+  position: relative;
+  height: 48px;
+}
+
+.entreprise-dashboard .base {
+  position: absolute;
+  width: 1415px;
+  height: 48px;
+  top: 0;
+  left: 16px;
+  background-color: var(--dark6-white);
+}
+
+.entreprise-dashboard .line-2 {
+  position: absolute;
+  width: 1447px;
+  height: 1px;
+  top: 47px;
+  left: 0;
+  background-color: var(--line1-line);
+}
+
+.entreprise-dashboard .text {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 169px;
+  position: absolute;
+  top: 16px;
+  left: 50px;
+}
+
+.entreprise-dashboard .text-wrapper-22 {
+  position: relative;
+  width: fit-content;
+  font-family: var(--headline-h5-medium-font-family);
+  font-weight: var(--headline-h5-medium-font-weight);
+  color: var(--dark3-dark);
+  font-size: var(--headline-h5-medium-font-size);
+  letter-spacing: var(--headline-h5-medium-letter-spacing);
+  line-height: var(--headline-h5-medium-line-height);
+  font-style: var(--headline-h5-medium-font-style);
+}
+
+.entreprise-dashboard .pagination {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--size-space-200);
+  position: absolute;
+  top: 700px;
+  left: 823px;
+}
+
+.entreprise-dashboard .pagination-previous {
+  justify-content: center;
+  gap: var(--size-space-200);
+  padding: var(--size-space-200) var(--size-space-300) var(--size-space-200)
+    var(--size-space-300);
+  border-radius: var(--size-radius-200);
+  opacity: 0.5;
+  display: inline-flex;
+  align-items: center;
+  position: relative;
+  flex: 0 0 auto;
+}
+
+.entreprise-dashboard .img-2 {
+  position: relative;
+  width: 16px;
+  height: 16px;
+}
+
+.entreprise-dashboard .previous {
+  position: relative;
+  width: fit-content;
+  margin-top: -1.00px;
+  font-family: var(--single-line-body-base-font-family);
+  font-weight: var(--single-line-body-base-font-weight);
+  color: var(--color-text-default-secondary);
+  font-size: var(--single-line-body-base-font-size);
+  letter-spacing: var(--single-line-body-base-letter-spacing);
+  line-height: var(--single-line-body-base-line-height);
+  white-space: nowrap;
+  font-style: var(--single-line-body-base-font-style);
+}
+
+.entreprise-dashboard .pagination-list {
+  gap: var(--size-space-200);
+  display: inline-flex;
+  align-items: center;
+  position: relative;
+  flex: 0 0 auto;
+}
+
+.entreprise-dashboard .pagination-page {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: var(--size-space-200) var(--size-space-300) var(--size-space-200)
+    var(--size-space-300);
+  position: relative;
+  flex: 0 0 auto;
+  background-color: var(--color-background-brand-default);
+  border-radius: var(--size-radius-200);
+}
+
+.entreprise-dashboard .text-wrapper-23 {
+  position: relative;
+  width: fit-content;
+  margin-top: -1.00px;
+  font-family: var(--single-line-body-base-font-family);
+  font-weight: var(--single-line-body-base-font-weight);
+  color: var(--color-text-brand-on-brand);
+  font-size: var(--single-line-body-base-font-size);
+  letter-spacing: var(--single-line-body-base-letter-spacing);
+  line-height: var(--single-line-body-base-line-height);
+  white-space: nowrap;
+  font-style: var(--single-line-body-base-font-style);
+}
+
+.entreprise-dashboard .element-wrapper {
+  flex-direction: column;
+  justify-content: center;
+  padding: var(--size-space-200) var(--size-space-300) var(--size-space-200)
+    var(--size-space-300);
+  border-radius: var(--size-radius-200);
+  display: inline-flex;
+  align-items: center;
+  position: relative;
+  flex: 0 0 auto;
+}
+
+.entreprise-dashboard .text-wrapper-24 {
+  position: relative;
+  width: fit-content;
+  margin-top: -1.00px;
+  font-family: var(--single-line-body-base-font-family);
+  font-weight: var(--single-line-body-base-font-weight);
+  color: var(--color-text-default-default);
+  font-size: var(--single-line-body-base-font-size);
+  letter-spacing: var(--single-line-body-base-letter-spacing);
+  line-height: var(--single-line-body-base-line-height);
+  white-space: nowrap;
+  font-style: var(--single-line-body-base-font-style);
+}
+
+.entreprise-dashboard .pagination-gap {
+  flex-direction: column;
+  justify-content: center;
+  padding: var(--size-space-200) var(--size-space-400) var(--size-space-200)
+    var(--size-space-400);
+  border-radius: 8px;
+  display: inline-flex;
+  align-items: center;
+  position: relative;
+  flex: 0 0 auto;
+}
+
+.entreprise-dashboard .text-wrapper-25 {
+  position: relative;
+  width: fit-content;
+  margin-top: -1.00px;
+  font-family: var(--body-base-bold-font-family);
+  font-weight: var(--body-base-bold-font-weight);
+  color: var(--colors-black-100);
+  font-size: var(--body-base-bold-font-size);
+  letter-spacing: var(--body-base-bold-letter-spacing);
+  line-height: var(--body-base-bold-line-height);
+  white-space: nowrap;
+  font-style: var(--body-base-bold-font-style);
+}
+
+.entreprise-dashboard .pagination-next {
+  justify-content: center;
+  gap: var(--size-space-200);
+  padding: var(--size-space-200) var(--size-space-300) var(--size-space-200)
+    var(--size-space-300);
+  border-radius: var(--size-radius-200);
+  display: inline-flex;
+  align-items: center;
+  position: relative;
+  flex: 0 0 auto;
+}
+
+.entreprise-dashboard .imprimer {
+  position: absolute;
+  width: 146px;
+  height: 40px;
+  top: 113px;
+  left: 1616px;
+}
+
+.entreprise-dashboard .vector-wrapper {
+  position: relative;
+  width: 119px;
+  height: 41px;
+  background-image: url(./img/button.png);
+  background-size: 100% 100%;
+}
+
+.entreprise-dashboard .vector-2 {
+  position: absolute;
+  width: 20px;
+  height: 18px;
+  top: 12px;
+  left: 10px;
+}
+
+.entreprise-dashboard .button {
+  all: unset;
+  box-sizing: border-box;
+  position: absolute;
+  width: 128px;
+  height: 40px;
+  top: 110px;
+  left: 1765px;
+  background-color: var(--brand-color1-primary);
+  border-radius: 8px;
+}
+
+.entreprise-dashboard .add-dashlet-wrapper {
+  position: relative;
+  width: 96px;
+  height: 17px;
+  top: 11px;
+  left: 16px;
+}
+
+.entreprise-dashboard .add-dashlet {
+  position: absolute;
+  top: 0;
+  left: 0;
+  font-family: var(--headline-h5-semibold-font-family);
+  font-weight: var(--headline-h5-semibold-font-weight);
+  color: var(--dark6-white);
+  font-size: var(--headline-h5-semibold-font-size);
+  letter-spacing: var(--headline-h5-semibold-letter-spacing);
+  line-height: var(--headline-h5-semibold-line-height);
+  font-style: var(--headline-h5-semibold-font-style);
+}
+
+.entreprise-dashboard .sidebar {
+  position: fixed;
+  width: 250px;
+  height: 2223px;
+  top: 0;
+  left: 0;
+  background-color: #d20b0b;
+}
+
+.entreprise-dashboard .overlap-5 {
+  position: absolute;
+  width: 250px;
+  height: 2876px;
+  top: 0;
+  left: 0;
+  background-color: #ffffff;
+}
+
+.entreprise-dashboard .line-3 {
+  position: absolute;
+  width: 1px;
+  height: 1181px;
+  top: 0;
+  left: 249px;
+}
+
+.entreprise-dashboard .menus {
+  position: absolute;
+  width: 249px;
+  height: 208px;
+  top: 115px;
+  left: 0;
+}
+
+.entreprise-dashboard .menu {
+  position: absolute;
+  width: 249px;
+  height: 52px;
+  top: 0;
+  left: 0;
+}
+
+.entreprise-dashboard .item {
+  position: relative;
+  width: 181px;
+  height: 24px;
+  top: 14px;
+  left: 24px;
+  overflow: hidden;
+}
+
+.entreprise-dashboard .overview {
+  position: absolute;
+  width: 124px;
+  top: 3px;
+  left: 36px;
+  font-family: var(--headline-h4-medium-font-family);
+  font-weight: var(--headline-h4-medium-font-weight);
+  color: var(--dark1-dark);
+  font-size: var(--headline-h4-medium-font-size);
+  letter-spacing: var(--headline-h4-medium-letter-spacing);
+  line-height: var(--headline-h4-medium-line-height);
+  font-style: var(--headline-h4-medium-font-style);
+}
+
+.entreprise-dashboard .ic-dashboard {
+  position: absolute;
+  width: 24px;
+  height: 24px;
+  top: -1654px;
+  left: -7768px;
+  background-image: url(./img/bounds-4.svg);
+  background-size: 100% 100%;
+}
+
+.entreprise-dashboard .shape-5 {
+  position: absolute;
+  width: 18px;
+  height: 18px;
+  top: 3px;
+  left: 3px;
+}
+
+.entreprise-dashboard .menu-2 {
+  top: 156px;
+  position: absolute;
+  width: 249px;
+  height: 52px;
+  left: 0;
+}
+
+.entreprise-dashboard .ic-chevron-right {
+  position: absolute;
+  width: 24px;
+  height: 24px;
+  top: 14px;
+  left: 201px;
+}
+
+.entreprise-dashboard .business {
+  position: absolute;
+  top: 17px;
+  left: 60px;
+  font-family: var(--headline-h4-medium-font-family);
+  font-weight: var(--headline-h4-medium-font-weight);
+  color: var(--dark1-dark);
+  font-size: var(--headline-h4-medium-font-size);
+  letter-spacing: var(--headline-h4-medium-letter-spacing);
+  line-height: var(--headline-h4-medium-line-height);
+  white-space: nowrap;
+  font-style: var(--headline-h4-medium-font-style);
+}
+
+.entreprise-dashboard .ic-store {
+  position: absolute;
+  width: 22px;
+  height: 22px;
+  top: 14px;
+  left: 26px;
+  background-image: url(./img/customer.png);
+  background-size: 100% 100%;
+}
+
+.entreprise-dashboard .menu-3 {
+  top: 104px;
+  position: absolute;
+  width: 249px;
+  height: 52px;
+  left: 0;
+}
+
+.entreprise-dashboard .sales {
+  position: absolute;
+  top: 16px;
+  left: 60px;
+  font-family: var(--headline-h4-medium-font-family);
+  font-weight: var(--headline-h4-medium-font-weight);
+  color: var(--dark1-dark);
+  font-size: var(--headline-h4-medium-font-size);
+  letter-spacing: var(--headline-h4-medium-letter-spacing);
+  line-height: var(--headline-h4-medium-line-height);
+  white-space: nowrap;
+  font-style: var(--headline-h4-medium-font-style);
+}
+
+.entreprise-dashboard .paid {
+  position: absolute;
+  width: 22px;
+  height: 22px;
+  top: 14px;
+  left: 26px;
+  background-image: url(./img/group.png);
+  background-size: 100% 100%;
+}
+
+.entreprise-dashboard .menu-4 {
+  top: 52px;
+  position: absolute;
+  width: 249px;
+  height: 52px;
+  left: 0;
+}
+
+.entreprise-dashboard .transactions {
+  position: absolute;
+  top: 16px;
+  left: 60px;
+  font-family: var(--headline-h4-medium-font-family);
+  font-weight: var(--headline-h4-medium-font-weight);
+  color: #9747ff;
+  font-size: var(--headline-h4-medium-font-size);
+  letter-spacing: var(--headline-h4-medium-letter-spacing);
+  line-height: var(--headline-h4-medium-line-height);
+  white-space: nowrap;
+  font-style: var(--headline-h4-medium-font-style);
+}
+
+.entreprise-dashboard .ic-payment {
+  position: absolute;
+  width: 22px;
+  height: 22px;
+  top: 14px;
+  left: 26px;
+  background-image: url(./img/company.png);
+  background-size: 100% 100%;
+}
+
+.entreprise-dashboard .logo {
+  position: absolute;
+  width: 128px;
+  height: 25px;
+  top: 23px;
+  left: 60px;
+}
+
+.entreprise-dashboard .overlap-group-4 {
+  position: relative;
+  height: 24px;
+  top: -1px;
+  left: -1px;
+}
+
+.entreprise-dashboard .shape-6 {
+  position: absolute;
+  width: 17px;
+  height: 17px;
+  top: 4px;
+  left: 4px;
+  background-color: var(--dark6-white);
+  border: 1px solid;
+  border-color: var(--dark1-dark);
+  transform: rotate(45deg);
+}
+
+.entreprise-dashboard .shape-7 {
+  position: absolute;
+  width: 11px;
+  height: 11px;
+  top: 11px;
+  left: 7px;
+  background-color: var(--dark1-dark);
+  border: 1px solid;
+  transform: rotate(45deg);
+  border-color: var(--dark1-dark);
+}
+
+.entreprise-dashboard .shape-8 {
+  position: absolute;
+  width: 8px;
+  height: 8px;
+  top: 8px;
+  left: 8px;
+  background-color: #a0a0a0;
+  border: 1px solid;
+  border-color: var(--dark1-dark);
+  transform: rotate(45deg);
+}
+
+.entreprise-dashboard .rhombus {
+  position: absolute;
+  top: 0;
+  left: 30px;
+  font-family: "Inter-Bold", Helvetica;
+  font-weight: 700;
+  color: #2e2c34;
+  font-size: 21px;
+  letter-spacing: 0;
+  line-height: normal;
+  white-space: nowrap;
+}
+
+.entreprise-dashboard .ic-menu {
+  position: absolute;
+  width: 24px;
+  height: 24px;
+  top: -1501px;
+  left: -7720px;
+  background-image: url(./img/bounds-2.svg);
+  background-size: 100% 100%;
+}
+
+.entreprise-dashboard .shape-9 {
+  position: absolute;
+  width: 18px;
+  height: 12px;
+  top: 6px;
+  left: 3px;
+}
