@@ -1,0 +1,711 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tableau de Bord Entreprises</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY&callback=initMap" async defer></script>
+    <style>
+        .map-container {
+            height: 400px;
+        }
+        .chart-container {
+            position: relative;
+            height: 250px;
+        }
+        .company-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+        }
+        .pagination .active {
+            background-color: #3b82f6;
+            color: white;
+        }
+    </style>
+</head>
+<body class="bg-gray-100 font-sans">
+    <div class="flex h-screen overflow-hidden">
+        <!-- Main Content -->
+        <div class="main-content flex-1 overflow-y-auto">
+            <!-- Top Bar (Info) -->
+            <div class="bg-blue-900 text-white text-sm">
+                <div class="container mx-auto px-6 py-2 flex justify-between items-center">
+                    <div class="flex space-x-4">
+                        <span><i class="fas fa-phone-alt mr-1"></i> +212 5 24 44 58 00</span>
+                        <span><i class="fas fa-envelope mr-1"></i> contact@entreprisepro.ma</span>
+                    </div>
+                    <div class="flex space-x-4">
+                        <a href="#" class="hover:text-blue-200"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#" class="hover:text-blue-200"><i class="fab fa-twitter"></i></a>
+                        <a href="#" class="hover:text-blue-200"><i class="fab fa-linkedin-in"></i></a>
+                        <a href="#" class="hover:text-blue-200"><i class="fab fa-youtube"></i></a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Main Navigation -->
+            <header class="bg-white shadow-md">
+                <div class="container mx-auto px-6">
+                    <div class="flex justify-between items-center py-4">
+                        <div class="flex items-center">
+                            <img src="https://placehold.co/180x50?text=EntreprisePro" alt="Logo" class="h-12">
+                        </div>
+                        
+                        <nav class="hidden md:flex items-center space-x-8">
+                            <a href="#" class="px-3 py-2 text-blue-800 font-medium hover:text-blue-600 transition">Accueil</a>
+                            <a href="#" class="px-3 py-2 text-blue-800 font-medium hover:text-blue-600 transition">Entreprises</a>
+                            <a href="#" class="px-3 py-2 text-blue-800 font-medium hover:text-blue-600 transition">Personnes morales</a>
+                            <a href="#" class="px-3 py-2 text-blue-800 font-medium hover:text-blue-600 transition">Clients</a>
+                            <a href="#" class="px-3 py-2 text-blue-800 font-medium hover:text-blue-600 transition">Contact</a>
+                        </nav>
+                        
+                        <div class="flex items-center space-x-4">
+                            <button id="mobile-menu-button" class="md:hidden p-2 text-blue-800">
+                                <i class="fas fa-bars text-xl"></i>
+                            </button>
+                            <div class="hidden md:flex items-center space-x-2">
+                                <div class="relative">
+                                    <input type="text" placeholder="Recherche..." class="pl-10 pr-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+                                    <i class="fas fa-search absolute left-3 top-3 text-gray-400"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </header>
+
+            <!-- Mobile Menu -->
+            <div id="mobile-menu" class="hidden bg-white shadow-lg">
+                <div class="px-2 pt-2 pb-4 space-y-1">
+                    <a href="#" class="block px-3 py-2 text-blue-800 font-medium hover:bg-blue-50">Accueil</a>
+                    <a href="#" class="block px-3 py-2 text-blue-800 font-medium hover:bg-blue-50">Entreprises</a>
+                    <a href="#" class="block px-3 py-2 text-blue-800 font-medium hover:bg-blue-50">Personnes morales</a>
+                    <a href="#" class="block px-3 py-2 text-blue-800 font-medium hover:bg-blue-50">Clients</a>
+                    <a href="#" class="block px-3 py-2 text-blue-800 font-medium hover:bg-blue-50">Contact</a>
+                    <div class="px-3 py-2">
+                        <div class="relative">
+                            <input type="text" placeholder="Recherche..." class="w-full pl-10 pr-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+                            <i class="fas fa-search absolute left-3 top-3 text-gray-400"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Main Content Area -->
+            <main class="p-6">
+                <!-- Welcome and Quick Stats -->
+                <div class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-6">
+                    <div class="bg-white p-6 rounded-lg shadow">
+                        <div class="flex items-center justify-between">
+                            <div>
+                                <p class="text-gray-500">Entreprises</p>
+                                <h3 class="text-2xl font-bold">1,248</h3>
+                            </div>
+                            <div class="bg-blue-100 p-3 rounded-full">
+                                <i class="fas fa-building text-blue-500 text-xl"></i>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="bg-white p-6 rounded-lg shadow">
+                        <div class="flex items-center justify-between">
+                            <div>
+                                <p class="text-gray-500">Personnes morales</p>
+                                <h3 class="text-2xl font-bold">876</h3>
+                            </div>
+                            <div class="bg-green-100 p-3 rounded-full">
+                                <i class="fas fa-users text-green-500 text-xl"></i>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="bg-white p-6 rounded-lg shadow">
+                        <div class="flex items-center justify-between">
+                            <div>
+                                <p class="text-gray-500">Nouvelles immat.</p>
+                                <h3 class="text-2xl font-bold">42</h3>
+                            </div>
+                            <div class="bg-purple-100 p-3 rounded-full">
+                                <i class="fas fa-file-alt text-purple-500 text-xl"></i>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="bg-white p-6 rounded-lg shadow">
+                        <div class="flex items-center justify-between">
+                            <div>
+                                <p class="text-gray-500">Clients actifs</p>
+                                <h3 class="text-2xl font-bold">324</h3>
+                            </div>
+                            <div class="bg-yellow-100 p-3 rounded-full">
+                                <i class="fas fa-user-tie text-yellow-500 text-xl"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Search and Filter Section -->
+                <div class="bg-white p-6 rounded-lg shadow mb-6">
+                    <h2 class="text-xl font-bold mb-4">Recherche d'entreprises</h2>
+                    <div class="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-5 gap-4 mb-4">
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1">Nom de l'entreprise</label>
+                            <input type="text" class="w-full border rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1">Secteur d'activité</label>
+                            <select class="w-full border rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500">
+                                <option>Tous</option>
+                                <option>Commerce</option>
+                                <option>Industrie</option>
+                                <option>Services</option>
+                                <option>Agriculture</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1">Ville</label>
+                            <select class="w-full border rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500">
+                                <option>Toutes</option>
+                                <option>Marrakech</option>
+                                <option>Casablanca</option>
+                                <option>Rabat</option>
+                                <option>Fès</option>
+                                <option>Tanger</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1">Forme juridique</label>
+                            <select class="w-full border rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500">
+                                <option>Toutes</option>
+                                <option>SARL</option>
+                                <option>SA</option>
+                                <option>SNC</option>
+                                <option>SCS</option>
+                                <option>Auto-entrepreneur</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1">Certifications</label>
+                            <select class="w-full border rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500">
+                                <option>Toutes</option>
+                                <option>ISO 9001</option>
+                                <option>ISO 14001</option>
+                                <option>OHSAS 18001</option>
+                                <option>HACCP</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="flex justify-between items-center">
+                        <button class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg flex items-center space-x-2">
+                            <i class="fas fa-search"></i>
+                            <span>Rechercher</span>
+                        </button>
+                        <button class="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-lg flex items-center space-x-2">
+                            <i class="fas fa-plus"></i>
+                            <span>Ajouter entreprise</span>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Map and Company List -->
+                <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-6">
+                    <!-- Map -->
+                    <div class="lg:col-span-2 bg-white p-4 rounded-lg shadow">
+                        <h2 class="text-xl font-bold mb-4">Localisation des entreprises</h2>
+                        <div id="map" class="map-container rounded-lg"></div>
+                    </div>
+                    
+                    <!-- Quick Stats -->
+                    <div class="bg-white p-4 rounded-lg shadow">
+                        <h2 class="text-xl font-bold mb-4">Statistiques rapides</h2>
+                        <div class="space-y-4">
+                            <div>
+                                <h3 class="font-medium mb-2">Répartition par ville</h3>
+                                <div class="chart-container">
+                                    <canvas id="cityChart"></canvas>
+                                </div>
+                            </div>
+                            <div>
+                                <h3 class="font-medium mb-2">Top secteurs</h3>
+                                <div class="space-y-2">
+                                    <div class="flex items-center justify-between">
+                                        <span>Commerce</span>
+                                        <span class="font-bold">42%</span>
+                                    </div>
+                                    <div class="w-full bg-gray-200 rounded-full h-2">
+                                        <div class="bg-blue-500 h-2 rounded-full" style="width: 42%"></div>
+                                    </div>
+                                    
+                                    <div class="flex items-center justify-between">
+                                        <span>Services</span>
+                                        <span class="font-bold">35%</span>
+                                    </div>
+                                    <div class="w-full bg-gray-200 rounded-full h-2">
+                                        <div class="bg-green-500 h-2 rounded-full" style="width: 35%"></div>
+                                    </div>
+                                    
+                                    <div class="flex items-center justify-between">
+                                        <span>Industrie</span>
+                                        <span class="font-bold">23%</span>
+                                    </div>
+                                    <div class="w-full bg-gray-200 rounded-full h-2">
+                                        <div class="bg-yellow-500 h-2 rounded-full" style="width: 23%"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Company Table -->
+                <div class="bg-white p-6 rounded-lg shadow mb-6">
+                    <div class="flex justify-between items-center mb-4">
+                        <h2 class="text-xl font-bold">Liste des entreprises</h2>
+                        <div class="flex items-center space-x-2">
+                            <span class="text-sm text-gray-500">Trier par:</span>
+                            <select class="border rounded-lg px-3 py-1 focus:outline-none focus:ring-2 focus:ring-blue-500">
+                                <option>Nom (A-Z)</option>
+                                <option>Nom (Z-A)</option>
+                                <option>Date récente</option>
+                                <option>Date ancienne</option>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <div class="overflow-x-auto">
+                        <table class="min-w-full divide-y divide-gray-200">
+                            <thead class="bg-gray-50">
+                                <tr>
+                                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Nom</th>
+                                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Secteur</th>
+                                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Ville</th>
+                                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Forme juridique</th>
+                                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Contact</th>
+                                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody class="bg-white divide-y divide-gray-200">
+                                <tr class="hover:bg-gray-50">
+                                    <td class="px-6 py-4 whitespace-nowrap">
+                                        <div class="flex items-center">
+                                            <div class="flex-shrink-0 h-10 w-10 bg-blue-100 rounded-full flex items-center justify-center">
+                                                <i class="fas fa-building text-blue-500"></i>
+                                            </div>
+                                            <div class="ml-4">
+                                                <div class="text-sm font-medium text-gray-900">Atlas Technologies</div>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap">
+                                        <div class="text-sm text-gray-900">Informatique</div>
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap">
+                                        <div class="text-sm text-gray-900">Marrakech</div>
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap">
+                                        <div class="text-sm text-gray-900">SARL</div>
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap">
+                                        <div class="text-sm text-gray-900">contact@atlas.ma</div>
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
+                                        <button class="text-blue-600 hover:text-blue-900 mr-3"><i class="fas fa-eye"></i></button>
+                                        <button class="text-yellow-600 hover:text-yellow-900 mr-3"><i class="fas fa-edit"></i></button>
+                                        <button class="text-red-600 hover:text-red-900"><i class="fas fa-trash"></i></button>
+                                    </td>
+                                </tr>
+                                <tr class="hover:bg-gray-50">
+                                    <td class="px-6 py-4 whitespace-nowrap">
+                                        <div class="flex items-center">
+                                            <div class="flex-shrink-0 h-10 w-10 bg-green-100 rounded-full flex items-center justify-center">
+                                                <i class="fas fa-store text-green-500"></i>
+                                            </div>
+                                            <div class="ml-4">
+                                                <div class="text-sm font-medium text-gray-900">Marjane Holding</div>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap">
+                                        <div class="text-sm text-gray-900">Commerce</div>
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap">
+                                        <div class="text-sm text-gray-900">Casablanca</div>
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap">
+                                        <div class="text-sm text-gray-900">SA</div>
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap">
+                                        <div class="text-sm text-gray-900">info@marjane.ma</div>
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
+                                        <button class="text-blue-600 hover:text-blue-900 mr-3"><i class="fas fa-eye"></i></button>
+                                        <button class="text-yellow-600 hover:text-yellow-900 mr-3"><i class="fas fa-edit"></i></button>
+                                        <button class="text-red-600 hover:text-red-900"><i class="fas fa-trash"></i></button>
+                                    </td>
+                                </tr>
+                                <tr class="hover:bg-gray-50">
+                                    <td class="px-6 py-4 whitespace-nowrap">
+                                        <div class="flex items-center">
+                                            <div class="flex-shrink-0 h-10 w-10 bg-purple-100 rounded-full flex items-center justify-center">
+                                                <i class="fas fa-industry text-purple-500"></i>
+                                            </div>
+                                            <div class="ml-4">
+                                                <div class="text-sm font-medium text-gray-900">Safran Maroc</div>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap">
+                                        <div class="text-sm text-gray-900">Industrie</div>
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap">
+                                        <div class="text-sm text-gray-900">Rabat</div>
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap">
+                                        <div class="text-sm text-gray-900">SARL</div>
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap">
+                                        <div class="text-sm text-gray-900">contact@safran.ma</div>
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
+                                        <button class="text-blue-600 hover:text-blue-900 mr-3"><i class="fas fa-eye"></i></button>
+                                        <button class="text-yellow-600 hover:text-yellow-900 mr-3"><i class="fas fa-edit"></i></button>
+                                        <button class="text-red-600 hover:text-red-900"><i class="fas fa-trash"></i></button>
+                                    </td>
+                                </tr>
+                                <tr class="hover:bg-gray-50">
+                                    <td class="px-6 py-4 whitespace-nowrap">
+                                        <div class="flex items-center">
+                                            <div class="flex-shrink-0 h-10 w-10 bg-yellow-100 rounded-full flex items-center justify-center">
+                                                <i class="fas fa-utensils text-yellow-500"></i>
+                                            </div>
+                                            <div class="ml-4">
+                                                <div class="text-sm font-medium text-gray-900">Restaurant Dar Moha</div>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap">
+                                        <div class="text-sm text-gray-900">Restauration</div>
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap">
+                                        <div class="text-sm text-gray-900">Marrakech</div>
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap">
+                                        <div class="text-sm text-gray-900">SNC</div>
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap">
+                                        <div class="text-sm text-gray-900">reservation@darmoha.ma</div>
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
+                                        <button class="text-blue-600 hover:text-blue-900 mr-3"><i class="fas fa-eye"></i></button>
+                                        <button class="text-yellow-600 hover:text-yellow-900 mr-3"><i class="fas fa-edit"></i></button>
+                                        <button class="text-red-600 hover:text-red-900"><i class="fas fa-trash"></i></button>
+                                    </td>
+                                </tr>
+                                <tr class="hover:bg-gray-50">
+                                    <td class="px-6 py-4 whitespace-nowrap">
+                                        <div class="flex items-center">
+                                            <div class="flex-shrink-0 h-10 w-10 bg-red-100 rounded-full flex items-center justify-center">
+                                                <i class="fas fa-hotel text-red-500"></i>
+                                            </div>
+                                            <div class="ml-4">
+                                                <div class="text-sm font-medium text-gray-900">La Mamounia</div>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap">
+                                        <div class="text-sm text-gray-900">Hôtellerie</div>
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap">
+                                        <div class="text-sm text-gray-900">Marrakech</div>
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap">
+                                        <div class="text-sm text-gray-900">SA</div>
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap">
+                                        <div class="text-sm text-gray-900">contact@mamounia.com</div>
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
+                                        <button class="text-blue-600 hover:text-blue-900 mr-3"><i class="fas fa-eye"></i></button>
+                                        <button class="text-yellow-600 hover:text-yellow-900 mr-3"><i class="fas fa-edit"></i></button>
+                                        <button class="text-red-600 hover:text-red-900"><i class="fas fa-trash"></i></button>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    
+                    <!-- Pagination -->
+                    <div class="flex items-center justify-between mt-4">
+                        <div class="text-sm text-gray-500">
+                            Affichage de <span class="font-medium">1</span> à <span class="font-medium">5</span> sur <span class="font-medium">68</span> entreprises
+                        </div>
+                        <div class="flex space-x-1 pagination">
+                            <button class="px-3 py-1 border rounded-lg hover:bg-gray-100"><i class="fas fa-angle-left"></i></button>
+                            <button class="px-3 py-1 border rounded-lg bg-blue-500 text-white">1</button>
+                            <button class="px-3 py-1 border rounded-lg hover:bg-gray-100">2</button>
+                            <button class="px-3 py-1 border rounded-lg hover:bg-gray-100">3</button>
+                            <button class="px-3 py-1 border rounded-lg hover:bg-gray-100">4</button>
+                            <button class="px-3 py-1 border rounded-lg hover:bg-gray-100">...</button>
+                            <button class="px-3 py-1 border rounded-lg hover:bg-gray-100">68</button>
+                            <button class="px-3 py-1 border rounded-lg hover:bg-gray-100"><i class="fas fa-angle-right"></i></button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Dashboard Charts -->
+                <div class="bg-white p-6 rounded-lg shadow mb-6">
+                    <h2 class="text-xl font-bold mb-4">Tableau de bord statistique</h2>
+                    
+                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                        <!-- City Distribution -->
+                        <div class="bg-gray-50 p-4 rounded-lg">
+                            <h3 class="font-medium mb-2">Répartition par ville</h3>
+                            <div class="chart-container">
+                                <canvas id="cityPieChart"></canvas>
+                            </div>
+                        </div>
+                        
+                        <!-- Sector Distribution -->
+                        <div class="bg-gray-50 p-4 rounded-lg">
+                            <h3 class="font-medium mb-2">Répartition par secteur</h3>
+                            <div class="chart-container">
+                                <canvas id="sectorDoughnutChart"></canvas>
+                            </div>
+                        </div>
+                        
+                        <!-- Legal Form Distribution -->
+                        <div class="bg-gray-50 p-4 rounded-lg">
+                            <h3 class="font-medium mb-2">Formes juridiques</h3>
+                            <div class="chart-container">
+                                <canvas id="legalFormBarChart"></canvas>
+                            </div>
+                        </div>
+                        
+                        <!-- Registration Trend -->
+                        <div class="bg-gray-50 p-4 rounded-lg md:col-span-2">
+                            <h3 class="font-medium mb-2">Évolution des immatriculations</h3>
+                            <div class="chart-container">
+                                <canvas id="registrationLineChart"></canvas>
+                            </div>
+                        </div>
+                        
+                        <!-- Company Type -->
+                        <div class="bg-gray-50 p-4 rounded-lg">
+                            <h3 class="font-medium mb-2">Types d'entreprise</h3>
+                            <div class="chart-container">
+                                <canvas id="companyTypeChart"></canvas>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </main>
+        </div>
+    </div>
+
+    <script>
+        // Toggle mobile menu
+        document.getElementById('mobile-menu-button').addEventListener('click', function() {
+            const menu = document.getElementById('mobile-menu');
+            menu.classList.toggle('hidden');
+        });
+
+        // Initialize Google Map
+        function initMap() {
+            const marrakech = { lat: 31.6295, lng: -7.9811 };
+            const map = new google.maps.Map(document.getElementById("map"), {
+                zoom: 12,
+                center: marrakech,
+            });
+            
+            // Add some markers
+            const locations = [
+                { lat: 31.6395, lng: -7.9911, title: "Atlas Technologies" },
+                { lat: 31.6295, lng: -8.0011, title: "Restaurant Dar Moha" },
+                { lat: 31.6195, lng: -7.9711, title: "La Mamounia" },
+                { lat: 31.6495, lng: -7.9611, title: "Marrakech Solar" },
+                { lat: 31.6095, lng: -7.9511, title: "Atlas Consulting" }
+            ];
+            
+            locations.forEach(location => {
+                new google.maps.Marker({
+                    position: location,
+                    map: map,
+                    title: location.title
+                });
+            });
+        }
+        
+        // Initialize Charts
+        document.addEventListener('DOMContentLoaded', function() {
+            // City Distribution Pie Chart
+            const cityPieCtx = document.getElementById('cityPieChart').getContext('2d');
+            const cityPieChart = new Chart(cityPieCtx, {
+                type: 'pie',
+                data: {
+                    labels: ['Marrakech', 'Casablanca', 'Rabat', 'Fès', 'Autres'],
+                    datasets: [{
+                        data: [42, 28, 15, 10, 5],
+                        backgroundColor: [
+                            '#3b82f6',
+                            '#10b981',
+                            '#f59e0b',
+                            '#6366f1',
+                            '#ef4444'
+                        ],
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            position: 'bottom'
+                        }
+                    }
+                }
+            });
+            
+            // Sector Doughnut Chart
+            const sectorDoughnutCtx = document.getElementById('sectorDoughnutChart').getContext('2d');
+            const sectorDoughnutChart = new Chart(sectorDoughnutCtx, {
+                type: 'doughnut',
+                data: {
+                    labels: ['Commerce', 'Industrie', 'Services', 'Agriculture'],
+                    datasets: [{
+                        data: [42, 23, 30, 5],
+                        backgroundColor: [
+                            '#3b82f6',
+                            '#10b981',
+                            '#f59e0b',
+                            '#6366f1'
+                        ],
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            position: 'bottom'
+                        }
+                    }
+                }
+            });
+            
+            // Legal Form Bar Chart
+            const legalFormBarCtx = document.getElementById('legalFormBarChart').getContext('2d');
+            const legalFormBarChart = new Chart(legalFormBarCtx, {
+                type: 'bar',
+                data: {
+                    labels: ['SARL', 'SA', 'SNC', 'SCS', 'Auto-entrepreneur'],
+                    datasets: [{
+                        label: 'Nombre',
+                        data: [65, 20, 15, 10, 30],
+                        backgroundColor: '#3b82f6',
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        y: {
+                            beginAtZero: true
+                        }
+                    },
+                    plugins: {
+                        legend: {
+                            display: false
+                        }
+                    }
+                }
+            });
+            
+            // Registration Line Chart
+            const registrationLineCtx = document.getElementById('registrationLineChart').getContext('2d');
+            const registrationLineChart = new Chart(registrationLineCtx, {
+                type: 'line',
+                data: {
+                    labels: ['Jan', 'Fév', 'Mar', 'Avr', 'Mai', 'Juin', 'Juil', 'Août', 'Sep', 'Oct', 'Nov', 'Déc'],
+                    datasets: [{
+                        label: 'Immatriculations',
+                        data: [120, 190, 170, 210, 240, 220, 200, 180, 210, 230, 250, 280],
+                        fill: false,
+                        borderColor: '#3b82f6',
+                        tension: 0.1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        y: {
+                            beginAtZero: true
+                        }
+                    }
+                }
+            });
+            
+            // Company Type Chart
+            const companyTypeCtx = document.getElementById('companyTypeChart').getContext('2d');
+            const companyTypeChart = new Chart(companyTypeCtx, {
+                type: 'bar',
+                data: {
+                    labels: ['Entreprise', 'Personne morale'],
+                    datasets: [{
+                        label: 'Nombre',
+                        data: [1248, 876],
+                        backgroundColor: [
+                            '#3b82f6',
+                            '#10b981'
+                        ],
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        y: {
+                            beginAtZero: true
+                        }
+                    },
+                    plugins: {
+                        legend: {
+                            display: false
+                        }
+                    }
+                }
+            });
+            
+            // Simple City Chart for the stats panel
+            const cityCtx = document.getElementById('cityChart').getContext('2d');
+            const cityChart = new Chart(cityCtx, {
+                type: 'pie',
+                data: {
+                    labels: ['Marrakech', 'Autres'],
+                    datasets: [{
+                        data: [42, 58],
+                        backgroundColor: [
+                            '#3b82f6',
+                            '#e5e7eb'
+                        ],
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            display: false
+                        }
+                    }
+                }
+            });
+        });
+    </script>
+</body>
+</html>

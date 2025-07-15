@@ -1,0 +1,97 @@
+<html>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+  <meta http-equiv="x-ua-compatible" content="ie=edge" />
+  <meta name="description" content="مدرسة شهيد لتعليم القيادة تقدم لكم تدريباً كاملاً واحترافياً للحصول على رخصة القيادة الخاصة بكم. مع مدربين ذوي خبرة وطرق تعليمية حديثة."/>
+  <title>Chahid Auto-Ecole</title>
+
+  <link rel="icon" href="/src/assets/logo.ico" />
+
+  <link rel="preload" as="image" href="/src/assets/comp.png" />
+
+  <link rel="stylesheet" href="/dev/mdb.min.css" />
+
+</head>
+
+<body>
+  <!--Main Navigation-->
+  <div id="header-Mob">
+  <header>
+    <!-- Sidenav -->
+
+      <div  id="sidenav-1" data-color="secondary" class="sidenav" role="navigation" data-hidden="false" data-accordion="true" data-mdb-position="fixed">
+        <a class="ripple d-flex justify-content-center py-4" href="#!" data-ripple-color="secondary">
+          <img id="" src="/src/assets/comp.png" alt="" draggable="false" class="img-fluid" />
+        </a>
+
+          <div id="sidenav"></div>
+
+      </div>
+    <!-- Sidenav -->
+
+
+  </header>
+</div>
+  <!--Main Navigation-->
+
+  <div id="root"></div>
+  <script type="module" src="/src/main.jsx"></script>
+
+
+
+
+  <!-- MDB -->
+  <script type="text/javascript" src="/dev/mdb.min.js"></script>
+
+  <script type="text/javascript">
+    document.addEventListener('DOMContentLoaded', function () {
+      const sidenav = document.getElementById("sidenav-1");
+      const instance = mdb.Sidenav.getInstance(sidenav);
+      const headerMob = document.getElementById('header-Mob');
+
+      let innerWidth = null;
+      let lastScrollTop = 0;
+
+      function redirectToPage(pageUrl) {
+        window.location.href = pageUrl;
+      }
+
+      const setMode = (e) => {
+        if (window.innerWidth === innerWidth) {
+          return;
+        }
+        innerWidth = window.innerWidth;
+        if (window.innerWidth < 992) {
+          instance.changeMode("over");
+          instance.hide();
+          headerMob.style.display = 'block';
+
+        } else {
+          instance.changeMode("side");
+          instance.show();
+          headerMob.style.display = 'none';
+ 
+        }
+      };
+
+      setMode();
+      window.addEventListener("resize", setMode);
+
+      // Add click event to sidenav items to retract sidenav
+      const sidenavItems = document.querySelectorAll('#sidenav-menu .sidenav-item');
+      sidenavItems.forEach(item => {
+        item.addEventListener('click', () => {
+          if (window.innerWidth < 992) {
+            instance.hide();
+            document.body.classList.remove('no-scroll');
+          }
+        });
+      });
+
+
+    });
+  </script>
+</body>
+
+</html>
