@@ -1,5 +1,5 @@
 from django.core.management.base import BaseCommand
-from entreprise.models import Entreprise
+from entreprise.models import Entreprise, CustomUser
 import random
 
 class Command(BaseCommand):
@@ -254,5 +254,28 @@ class Command(BaseCommand):
         
         for data in entreprises_data:
             Entreprise.objects.create(**data)
-            
-        self.stdout.write(self.style.SUCCESS(f'Successfully seeded {len(entreprises_data)} real Marrakech companies!')) 
+
+        # Création d'un compte admin
+        if not CustomUser.objects.filter(numero_telephone='+212600000001').exists():
+            CustomUser.objects.create_user(
+                username='adminuser',
+                numero_telephone='+212600000001',
+                numero_carte='ADMINCARD001',
+                role=CustomUser.ADMIN,
+                password='admin1234',
+                is_staff=True,
+                is_superuser=True
+            )
+        # Création d'un compte responsable
+        if not CustomUser.objects.filter(numero_telephone='+212600000002').exists():
+            CustomUser.objects.create_user(
+                username='responsableuser',
+                numero_telephone='+212600000002',
+                numero_carte='RESPCARD001',
+                role=CustomUser.RESPONSABLE,
+                password='responsable1234',
+                is_staff=False,
+                is_superuser=False
+            )
+
+        self.stdout.write(self.style.SUCCESS(f'Successfully seeded {len(entreprises_data)} real Marrakech companies and 2 users!')) 

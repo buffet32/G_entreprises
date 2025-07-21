@@ -120,19 +120,8 @@ const HeaderD = () => {
     return windowWidth > 992 ? (
         <header>
             {/* Top Info Bar */}
-            <div className="navbar-topbar" style={{ background: "#23233a", color: "#fff", padding: "0.5rem 2rem", display: "flex", justifyContent: "space-between", alignItems: "center", position: "fixed", top: 0, left: 0, width: "100vw", zIndex: 1100, height: TOPBAR_HEIGHT }}>
-                <div>
-                    <span style={{ marginRight: 20 }}><FontAwesomeIcon icon={faPhoneAlt} style={{ marginRight: 5 }} />+212 5 24 44 58 00</span>
-                    <span><FontAwesomeIcon icon={faEnvelope} style={{ marginRight: 5 }} />contact@compassio.ma</span>
-                </div>
-                <div>
-                    <a href="#" style={{ color: "#fff", marginRight: 10 }}><FontAwesomeIcon icon={faFacebookF} /></a>
-                    <a href="#" style={{ color: "#fff", marginRight: 10 }}><FontAwesomeIcon icon={faTwitter} /></a>
-                    <a href="#" style={{ color: "#fff", marginRight: 10 }}><FontAwesomeIcon icon={faLinkedinIn} /></a>
-                    <a href="#" style={{ color: "#fff" }}><FontAwesomeIcon icon={faYoutube} /></a>
-                </div>
-            </div>
-            <nav id="main-navbar" className="navbar navbar-expand-lg navbar-light fixed-top" style={{ top: TOPBAR_HEIGHT, zIndex: 1099 }}>
+
+            <nav id="main-navbar" className="navbar navbar-expand-lg navbar-light fixed-top" >
               <img id="logo-d" src={srcimage} alt="" draggable="false" className="img-fluid" />
                 <div className="container-fluid justify-content-center">
                     <center>

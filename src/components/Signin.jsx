@@ -9,34 +9,32 @@ import '../styles/Sign.css'
 const Signin = () => {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
+    const [numeroTelephone, setNumeroTelephone] = useState('');
     
     const onSubmit = async (e) => {
         e.preventDefault();
-        const userObject = { username, password };
+        const userObject = { username, numero_telephone: numeroTelephone, password };
         
         try {
-            const res = await axios.post('https://chahid.ma/api/auth/login', userObject);
+            const res = await axios.post('http://127.0.0.1:8000/api/login/', userObject);
             if (res.status === 200) {
-
-				localStorage.setItem('user', JSON.stringify(res.data));
-				window.location = '/';
+                // res.data contient access, refresh, et user info si customisé côté backend
+                localStorage.setItem('user', JSON.stringify(res.data));
+                window.location = '/';
             }
         } catch (error) {
-
-            toast.error('Erreur dans le nom d\'utilisateur ou le mot de passe',
-                {
-                    position: "top-center",
-                    autoClose: 1500,
-                    hideProgressBar: false,
-                    closeOnClick: true,
-                    pauseOnHover: false,
-                    draggable: true,
-                    progress: undefined,
-                    theme: "colored",
-                    rtl: false,
-                    transition: Slide,
-           
-               });
+            toast.error('Erreur dans le nom d\'utilisateur, le numéro de téléphone ou le mot de passe', {
+                position: "top-center",
+                autoClose: 1500,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: false,
+                draggable: true,
+                progress: undefined,
+                theme: "colored",
+                rtl: false,
+                transition: Slide,
+            });
         }
     };
 
@@ -49,7 +47,7 @@ const Signin = () => {
                             Connexion
                         </span>
                         <div>
-                            <label className='my-2' id='iname' >Utilisateur</label>
+                            <label className='my-2' id='iname' >Nom d'utilisateur</label>
                             <div className="wrap-input100 validate-input m-b-16">
                                 
                                 <input
@@ -61,6 +59,18 @@ const Signin = () => {
                                     id='g-font'
                                 />
                                 <span  className="focus-input100"></span>
+                            </div>
+                            <label className='my-2' id='iname' >Numéro de téléphone</label>
+                            <div className="wrap-input100 validate-input m-b-16">
+                                <input
+                                    className="input100 placeholder-right"
+                                    type="text"
+                                    dir='ltr'
+                                    value={numeroTelephone}
+                                    onChange={(e) => setNumeroTelephone(e.target.value)}
+                                    id='g-font'
+                                />
+                                <span className="focus-input100"></span>
                             </div>
                             <label className='my-2' id='iname' >Mot de passe</label>
                             <div className="wrap-input100 validate-input m-b-16">

@@ -1,4 +1,5 @@
 from django.db import models
+from django.contrib.auth.models import AbstractBaseUser, PermissionsMixin, BaseUserManager
 
 # Create your models here.
 
@@ -71,3 +72,42 @@ class Entreprise(models.Model):
         (SU, 'Startup'),
     ]
     taille_entreprise = models.CharField(max_length=3, choices=TAILLES_ENTREPRISE)
+
+class CustomUserManager(BaseUserManager):
+    def create_user(self, numero_telephone, password=None, **extra_fields):
+        if not numero_telephone:
+            raise ValueError('Le numéro de téléphone est obligatoire')
+        user = self.model(numero_telephone=numero_telephone, **extra_fields)
+        user.set_password(password)
+        user.save(using=self._db)
+        return user
+
+    def create_superuser(self, numero_telephone, password=None, **extra_fields):
+        extra_fields.setdefault('is_staff', True)
+        extra_fields.setdefault('is_superuser', True)
+        extra_fields.setdefault('role', CustomUser.ADMIN)
+        return self.create_user(numero_telephone, password, **extra_fields)
+
+class CustomUser(AbstractBaseUser, PermissionsMixin):
+    ADMIN = 'admin'
+    RESPONSABLE = 'responsable'
+    ROLE_CHOICES = [
+        (ADMIN, 'Admin'),
+        (RESPONSABLE, 'Responsable'),
+    ]
+
+    numero_telephone = models.CharField(max_length=20, unique=True)
+    username = models.CharField(max_length=150)
+    numero_carte = models.CharField(max_length=50)
+    role = models.CharField(max_length=20, choices=ROLE_CHOICES)
+    is_active = models.BooleanField(default=True)
+    is_staff = models.BooleanField(default=False)
+    date_joined = models.DateTimeField(auto_now_add=True)
+
+    USERNAME_FIELD = 'numero_telephone'
+    REQUIRED_FIELDS = ['username', 'role', 'numero_carte']
+
+    objects = CustomUserManager()
+
+    def __str__(self):
+        return self.numero_telephone

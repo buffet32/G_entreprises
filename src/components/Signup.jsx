@@ -8,11 +8,11 @@ import 'react-toastify/dist/ReactToastify.css';
 const Signup = () => {
     const [formData, setFormData] = useState({
         username: '',
-        phone: '',
+        numero_telephone: '',
+        numero_carte: '',
         password: '',
-        password_confirmation: '',
-        cin: '',
-
+        password2: '',
+        role: 'responsable', // ou 'admin' si tu veux laisser le choix
     });
     const navigate = useNavigate();
 
@@ -26,9 +26,8 @@ const Signup = () => {
 
     const onSubmit = async (e) => {
         e.preventDefault();
-        const { username, phone, password, password_confirmation, cin } = formData;
-
-        if (!username || !phone || !password || !password_confirmation || !cin) {
+        const { username, numero_telephone, numero_carte, password, password2, role } = formData;
+        if (!username || !numero_telephone || !numero_carte || !password || !password2 || !role) {
             toast.error('Veuillez remplir toutes les informations !', {
                 position: "top-center",
                 autoClose: 1500,
@@ -41,104 +40,40 @@ const Signup = () => {
                 rtl: false,
                 transition: Slide,
             });
-            return; // Stop submission if any field is empty
+            return;
         }
         try {
-            const res = await axios.post('https://chahid.ma/api/auth/register', formData);
-            console.log(res.data.message);
-            if (res.data.message === "User successfully registered") {
-                navigate('/');
-                toast.success('Inscription réussie !',
-                     {
-                        position: "top-center",
-                        autoClose: 1500,
-                        hideProgressBar: false,
-                        closeOnClick: true,
-                        pauseOnHover: false,
-                        draggable: true,
-                        progress: undefined,
-                        theme: "colored",
-                        rtl: false,
-                        transition: Slide,
-                
-                    });
-            }
+            const res = await axios.post('http://127.0.0.1:8000/api/register/', formData);
+            toast.success('Inscription réussie !', {
+                position: "top-center",
+                autoClose: 1500,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: false,
+                draggable: true,
+                progress: undefined,
+                theme: "colored",
+                rtl: false,
+                transition: Slide,
+            });
+            navigate('/');
         } catch (error) {
             if (error.response && error.response.data) {
-                let errorObject;
-                if (typeof error.response.data === 'string') {
-                    try {
-                        errorObject = JSON.parse(error.response.data);
-                    } catch (e) {
-                        
-                        alert("An error occurred. Please try again later."); // Fallback error message
-                        return;
-                    }
-                } else {
-                    errorObject = error.response.data;
-                    console.log(errorObject)
-                }   
-
-                 if (errorObject.hasOwnProperty("cin")) {
-                    toast.error(<li>Cette carte d'identité nationale a déjà été utilisée !</li>, {
-                        position: "top-center",
-                        autoClose: 1500,
-                        hideProgressBar: false,
-                        closeOnClick: true,
-                        pauseOnHover: false,
-                        draggable: true,
-                        progress: undefined,
-                        theme: "colored",
-                        rtl: false,
-                        transition: Slide,
-                    });
-
-                } if (errorObject.hasOwnProperty("username")) {
-                    toast.error(<li style={{ fontSize:'15px' }}>Ce nom d'utilisateur a déjà été utilisé !</li>, {
-                        position: "top-center",
-                        autoClose: 1500,
-                        hideProgressBar: false,
-                        closeOnClick: true,
-                        pauseOnHover: false,
-                        draggable: true,
-                        progress: undefined,
-                        theme: "colored",
-                        rtl: false,
-                        transition: Slide,
-                    });
-
-                } if (errorObject.hasOwnProperty("password")) {
-                    toast.error(<li >Le mot de passe doit contenir au moins 6 caractères !</li>, {
-                        position: "top-center",
-                        autoClose: 1500,
-                        hideProgressBar: false,
-                        closeOnClick: true,
-                        pauseOnHover: false,
-                        draggable: true,
-                        progress: undefined,
-                        theme: "colored",
-                        rtl: false,
-                        transition: Slide,
-                    });
-
-                }if (errorObject.hasOwnProperty("password")) {
-                    if (errorObject.password.includes("The password confirmation does not match.")) {
-                        toast.error('La confirmation du mot de passe ne correspond pas !', {
-                            position: "top-center",
-                            autoClose: 1000,
-                            hideProgressBar: false,
-                            closeOnClick: true,
-                            pauseOnHover: false,
-                            draggable: true,
-                            progress: undefined,
-                            theme: "colored",
-                            rtl: false,
-                            transition: Slide,
-                        });
-                       
-                    }}
+                let errorObject = error.response.data;
+                if (errorObject.numero_telephone) {
+                    toast.error('Numéro de téléphone déjà utilisé !', { position: "top-center", autoClose: 1500, theme: "colored", transition: Slide });
+                }
+                if (errorObject.numero_carte) {
+                    toast.error('Numéro de carte déjà utilisé !', { position: "top-center", autoClose: 1500, theme: "colored", transition: Slide });
+                }
+                if (errorObject.password) {
+                    toast.error('Le mot de passe est trop court ou invalide !', { position: "top-center", autoClose: 1500, theme: "colored", transition: Slide });
+                }
+                if (errorObject.password2) {
+                    toast.error('La confirmation du mot de passe ne correspond pas !', { position: "top-center", autoClose: 1500, theme: "colored", transition: Slide });
+                }
             } else {
-                alert("An error occurred. Please try again later."); // Fallback error message
+                alert("Une erreur est survenue. Veuillez réessayer plus tard.");
             }
         }
     };
@@ -151,7 +86,7 @@ const Signup = () => {
                 <div className="wrap-login100">
                     <form className="login100-form validate-form p-l-55 p-r-55 p-t-178" onSubmit={onSubmit}>
                         <span className="login100-form-title">S'inscrire</span>
-                        <label className='my-2' id='iname' >Utilisateur</label>
+                        <label className='my-2' id='iname' >Nom d'utilisateur</label>
                         <div className="wrap-input100 validate-input m-b-16">
                             <input
                                 className="input100 placeholder-right"
@@ -164,16 +99,29 @@ const Signup = () => {
                             />
                             <span className="focus-input100"></span>
                         </div>
+                        <label className='my-2' id='iname' >Utilisateur</label>
+                        <div className="wrap-input100 validate-input m-b-16">
+                            <input
+                                className="input100 placeholder-right"
+                                type="text"
+                                dir='ltr'
+                                onChange={onChangeInput}
+                                name="numero_telephone"
+                                value={formData.numero_telephone}
+                                id='g-font'
+                            />
+                            <span className="focus-input100"></span>
+                        </div>
                         <label className='my-2' id='iname' >Numéro de téléphone</label>
                         
                         <div className="wrap-input100 validate-input m-b-16">
                             <input
                                 className="input100 placeholder-right"
-                                type="number"
+                                type="text"
                                 dir='ltr'
                                 onChange={onChangeInput}
-                                name="phone"
-                                value={formData.phone}
+                                name="numero_carte"
+                                value={formData.numero_carte}
                                 id='g-font'
                             />
                             <span className="focus-input100"></span>
@@ -199,23 +147,18 @@ const Signup = () => {
                                 type="password"
                                 dir='ltr'
                                 onChange={onChangeInput}
-                                name="password_confirmation"
-                                value={formData.password_confirmation}
+                                name="password2"
+                                value={formData.password2}
                                 id='g-font'
                             />
                             <span className="focus-input100"></span>
                         </div>
-                        <label className='my-2' id='iname' >Numéro de carte</label>
+                        <label className='my-2' id='iname' >Role</label>
                         <div className="wrap-input100 validate-input m-b-16">
-                            <input
-                                className="input100 placeholder-right"
-                                type="text"
-                                dir='ltr'
-                                onChange={onChangeInput}
-                                name="cin"
-                                value={formData.cin}
-                                id='g-font'
-                            />
+                            <select name="role" value={formData.role} onChange={onChangeInput} className="input100 placeholder-right">
+                                <option value="responsable">Responsable</option>
+                                <option value="admin">Admin</option>
+                            </select>
                             <span className="focus-input100"></span>
                         </div>
                         <br/>
