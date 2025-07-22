@@ -61,22 +61,12 @@ const HeaderM = () => {
     useEffect(() => {
       const storedUser = localStorage.getItem('user');
       if (storedUser) {
-          const user = JSON.parse(storedUser);
-          const token = user.access_token;
-          const userId = user.user.id;
-
-          axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
-
-          axios.get(`https://chahid.ma/api/auth/users/${userId}`)
-              .then(response => {
-                  const userProfile = response.data;
-                  setIsAdmin(userProfile.role === 'admin');
-              
-              })
-
+        try {
+          const user = JSON.parse(storedUser).user;
+          setIsAdmin(user && user.role === 'admin');
+        } catch {}
       }
-  }, [navigate]);
-
+    }, []);
 
 
   const handleLogout = () => {
@@ -128,13 +118,14 @@ const HeaderM = () => {
                     </a>
                   </li>
                   {isAdmin ? (
-                    <li>
-                      <a id="sdropdown" className="d-flex justify-content-start dropdown-item" href="/AdashM">
-                        
-                        <FontAwesomeIcon className="mr-2" id="logout-m " icon={faUserGroup} />
-                        Utilisateurs
-                      </a>
-                    </li>
+                    <>
+                      <li>
+                        <a id="sdropdown" className="d-flex justify-content-start dropdown-item" href="/AdashM">
+                          <FontAwesomeIcon className="mr-2" id="logout-m " icon={faUserGroup} />
+                          Utilisateurs
+                        </a>
+                      </li>
+                    </>
                   ) : null}
                   <li>
                     <a id="sdropdown" className="d-flex justify-content-start dropdown-item" onClick={handleLogout}>

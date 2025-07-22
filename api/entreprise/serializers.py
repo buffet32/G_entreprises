@@ -13,7 +13,7 @@ class UserRegisterSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = CustomUser
-        fields = ('id', 'numero_telephone', 'numero_carte', 'role', 'password', 'password2')
+        fields = ('id', 'username', 'numero_telephone', 'numero_carte', 'role', 'password', 'password2')
 
     def validate(self, attrs):
         if attrs['password'] != attrs['password2']:
@@ -23,14 +23,20 @@ class UserRegisterSerializer(serializers.ModelSerializer):
     def create(self, validated_data):
         validated_data.pop('password2')
         user = CustomUser.objects.create_user(
-            numero_telephone=validated_data['numero_telephone'],
+            username=validated_data['username'],
+            numero_telephone=validated_data.get('numero_telephone', ''),
             numero_carte=validated_data['numero_carte'],
             role=validated_data['role'],
             password=validated_data['password']
         )
-        return user 
+        return user
 
 class CustomUserSerializer(serializers.ModelSerializer):
     class Meta:
         model = CustomUser
-        fields = ('id', 'numero_telephone', 'numero_carte', 'role', 'is_active', 'is_staff', 'date_joined') 
+        fields = ('id', 'username', 'numero_telephone', 'numero_carte', 'role', 'is_active', 'is_staff', 'date_joined')
+
+class CustomUserAdminSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = CustomUser
+        fields = ('id', 'username', 'numero_telephone', 'numero_carte', 'role', 'is_active', 'is_staff', 'date_joined') 

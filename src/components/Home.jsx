@@ -44,6 +44,34 @@ const Home = () => {
   const [selectedForme, setSelectedForme] = useState('');
   const [selectedCertification, setSelectedCertification] = useState('');
 
+  // Calcul du nombre de responsables (utilisateurs avec le rôle responsable)
+  const [responsableCount, setResponsableCount] = useState(0);
+  useEffect(() => {
+    const storedUser = localStorage.getItem('user');
+    if (storedUser) {
+      const parsed = JSON.parse(storedUser);
+      const token = parsed.access || (parsed.user && parsed.user.access) || parsed.access_token;
+      if (token) {
+        fetch('http://127.0.0.1:8000/api/users/?role=responsable', {
+          headers: { Authorization: `Bearer ${token}` }
+        })
+          .then(res => res.json())
+          .then(data => {
+            if (Array.isArray(data)) {
+              setResponsableCount(data.length);
+            } else if (data.results) {
+              setResponsableCount(data.results.length);
+            }
+          })
+          .catch(() => setResponsableCount(0));
+      }
+    }
+  }, []);
+  // Calcul du nombre d'entreprises récemment ajoutées (7 derniers jours)
+  const now = new Date();
+  const sevenDaysAgo = new Date(now.getTime() - 7 * 24 * 60 * 60 * 1000);
+  const recentEntreprises = entreprises.filter(e => new Date(e.date_creation) >= sevenDaysAgo);
+
   useEffect(() => {
     fetch("http://127.0.0.1:8000/api/entreprises/")
       .then((res) => res.json())
@@ -95,6 +123,12 @@ const Home = () => {
   // Calculate city distribution for stats
   const cityStats = entreprises.reduce((acc, e) => {
     acc[e.ville] = (acc[e.ville] || 0) + 1;
+    return acc;
+  }, {});
+
+  // Calculate sector distribution for stats
+  const sectorStats = entreprises.reduce((acc, e) => {
+    acc[e.secteur] = (acc[e.secteur] || 0) + 1;
     return acc;
   }, {});
 
@@ -202,6 +236,17 @@ const Home = () => {
     }
   };
 
+  const storedUser = localStorage.getItem('user');
+  let isAdmin = false;
+  let canAddEntreprise = false;
+  if (storedUser) {
+    try {
+      const user = JSON.parse(storedUser).user;
+      isAdmin = user && user.role === 'admin';
+      canAddEntreprise = user && (user.role === 'admin' || user.role === 'responsable');
+    } catch {}
+  }
+
   return (
     <div className="dashboard-container">
       {/* Dashboard Stats */}
@@ -209,8 +254,8 @@ const Home = () => {
         {[
           { label: "Entreprises", value: entreprises.length, icon: faBuilding, color: "#8c54bc" },
           { label: "Personnes morales", value: entreprises.filter(e => e.type === 'PM').length, icon: faUserGroup, color: "#4fd1c5" },
-          { label: "Nouvelles immat.", value: 42, icon: faFileAlt, color: "#a78bfa" },
-          { label: "Clients actifs", value: 324, icon: faUserTie, color: "#fbbf24" },
+          { label: "Nouvelles immat.", value: recentEntreprises.length, icon: faFileAlt, color: "#a78bfa" },
+          ...(isAdmin ? [{ label: "Responsables", value: responsableCount, icon: faUserTie, color: "#fbbf24" }] : []),
         ].map((stat, idx) => (
           <div key={idx} className="dashboard-card">
             <div>
@@ -276,17 +321,20 @@ const Home = () => {
               setSelectedVille('');
               setSelectedForme('');
               setSelectedCertification('');
+              setFilteredEntreprises(entreprises);
             }}
           >
             <FontAwesomeIcon icon={faSearch} style={{ marginRight: 8 }} />
-            Réinitialiser
+            Tout afficher
           </button>
-          <Link to="/ajouter-entreprise" style={{ textDecoration: 'none' }}>
-            <button style={{ background: "#4fd1c5", color: "#fff" }}>
-              <FontAwesomeIcon icon={faUserGroup} style={{ marginRight: 8 }} />
-              Ajouter entreprise
-            </button>
-          </Link>
+          {canAddEntreprise && (
+            <Link to="/ajouter-entreprise" style={{ textDecoration: 'none' }}>
+              <button style={{ background: "#4fd1c5", color: "#fff" }}>
+                <FontAwesomeIcon icon={faUserGroup} style={{ marginRight: 8 }} />
+                Ajouter entreprise
+              </button>
+            </Link>
+          )}
         </div>
         {filteredEntreprises.length !== entreprises.length && (
           <div style={{ color: '#4fd1c5', marginTop: 10 }}>
@@ -363,6 +411,29 @@ const Home = () => {
                       style={{ 
                         width: `${percentage}%`, 
                         background: '#8c54bc' 
+                      }}
+                    ></div>
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+          <div style={{ marginTop: 24 }}>
+            <h3>Répartition par secteur</h3>
+            {Object.entries(sectorStats).map(([secteur, count]) => {
+              const percentage = totalCompanies > 0 ? Math.round((count / totalCompanies) * 100) : 0;
+              return (
+                <div key={secteur} className="dashboard-bar">
+                  <div className="dashboard-bar-labels">
+                    <span>{secteur}</span>
+                    <span>{percentage}%</span>
+                  </div>
+                  <div className="dashboard-bar-bg">
+                    <div 
+                      className="dashboard-bar-fill" 
+                      style={{ 
+                        width: `${percentage}%`, 
+                        background: '#4fd1c5' 
                       }}
                     ></div>
                   </div>

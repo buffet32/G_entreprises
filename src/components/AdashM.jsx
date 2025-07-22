@@ -11,64 +11,63 @@ const AdashM = () => {
     const navigate = useNavigate();
     const [search, setSearch] = useState('');
     const [page, setPage] = useState(1);
-    const [perPage, setPerPage] = useState(10);
-    const [lastPage, setLastPage] = useState(1);
+    const [perPage] = useState(10);
     const [totalEntries, setTotalEntries] = useState(0);
     const [loggedIn, setLoggedIn] = useState(false);
 
     useEffect(() => {
-        fetchUsers();
-    }, [search, page, perPage]);
-
-
-    useEffect(() => {
         const storedUser = localStorage.getItem('user');
         if (storedUser) {
-            const user = JSON.parse(storedUser);
-            const token = user.access_token;
-            const userId = user.user.id; // Ensure you have user ID here
-
-            axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
-
-            axios.get(`https://chahid.ma/api/auth/users/${userId}`) // Adjusted endpoint
-                .then(response => {
-                    const userProfile = response.data;
-                    if (userProfile.role !== 'admin') {
-                        navigate('/'); // Redirect if user is not an admin
-                    } else {
-                        setLoggedIn(true); // Set logged in if user is an admin
-                    }
-                })
-                .catch(error => {
-                    console.error('Error fetching user profile:', error);
-                    navigate('/'); // Redirect on error
-                });
+            try {
+                const user = JSON.parse(storedUser).user;
+                if (user.role !== 'admin') {
+                    navigate('/');
+                } else {
+                    setLoggedIn(true);
+                }
+            } catch {
+                navigate('/');
+            }
         } else {
-            console.error('JWT token not found');
-            navigate('/'); // Redirect if token is not found
+            navigate('/');
         }
     }, [navigate]);
 
+    useEffect(() => {
+        fetchUsers();
+        // eslint-disable-next-line
+    }, [search, page]);
+
     const fetchUsers = () => {
-        axios.get('https://chahid.ma/api/auth/users', {
-            params: { search, page, per_page: perPage }
-        })
-        .then(response => {
-            setUsers(response.data.data);
-            setLastPage(response.data.last_page);
-            setTotalEntries(response.data.total);
-        })
-        .catch(error => {
-            console.error('Error fetching users:', error);
-        });
+        const storedUser = localStorage.getItem('user');
+        if (!storedUser) return;
+        const parsed = JSON.parse(storedUser);
+        const token = parsed.access || (parsed.user && parsed.user.access) || parsed.access_token;
+        if (!token) return;
+        axios.get(`http://127.0.0.1:8000/api/users/?search=${search}&page=${page}`,
+            { headers: { Authorization: `Bearer ${token}` } })
+            .then(response => {
+                console.log('API users response:', response.data);
+                setUsers(Array.isArray(response.data) ? response.data : (response.data.results || []));
+                setTotalEntries(Array.isArray(response.data) ? response.data.length : (response.data.count || 0));
+            })
+            .catch(error => {
+                console.error('Error fetching users:', error);
+            });
     };
 
-    const updateUserStatus = (id) => {
-        axios.put(`https://chahid.ma/api/auth/users/${id}/update-status`, { is_verified: true })
+    const updateUserStatus = (id, is_active) => {
+        const storedUser = localStorage.getItem('user');
+        if (!storedUser) return;
+        const parsed = JSON.parse(storedUser);
+        const token = parsed.access || (parsed.user && parsed.user.access) || parsed.access_token;
+        if (!token) return;
+        axios.patch(`http://127.0.0.1:8000/api/users/${id}/`, { is_active: !is_active },
+            { headers: { Authorization: `Bearer ${token}` } })
             .then(() => {
-                setUsers(prevUsers => 
-                    prevUsers.map(user => 
-                        user.id === id ? { ...user, is_verified: true } : user
+                setUsers(prevUsers =>
+                    prevUsers.map(user =>
+                        user.id === id ? { ...user, is_active: !is_active } : user
                     )
                 );
             })
@@ -78,7 +77,13 @@ const AdashM = () => {
     };
 
     const deleteUser = (id) => {
-        axios.delete(`https://chahid.ma/api/auth/users/${id}`)
+        const storedUser = localStorage.getItem('user');
+        if (!storedUser) return;
+        const parsed = JSON.parse(storedUser);
+        const token = parsed.access || (parsed.user && parsed.user.access) || parsed.access_token;
+        if (!token) return;
+        axios.delete(`http://127.0.0.1:8000/api/users/${id}/`,
+            { headers: { Authorization: `Bearer ${token}` } })
             .then(() => {
                 setUsers(prevUsers => prevUsers.filter(user => user.id !== id));
             })
@@ -95,21 +100,23 @@ const AdashM = () => {
     };
 
     const handlePageChange = (newPage) => {
-        if (newPage > 0 && newPage <= lastPage) {
+        if (newPage > 0 && (newPage - 1) * perPage < totalEntries) {
             setPage(newPage);
         }
     };
 
+    const lastPage = Math.ceil(totalEntries / perPage);
+
     return (
         <div className="container mt-4">
-            <h1 id='bnr'>Entreprise</h1>
+            <h1 id='bnr'>Utilisateurs</h1>
             <div className="input-group mb-4">
                 <form  d className="form-inline">
                     <label >Recherche<FontAwesomeIcon className='mx-2' icon={faMagnifyingGlass} /></label>
                     <input dir='ltr' type="" id="form1" className="form-control" value={search} onChange={(e) => setSearch(e.target.value)} />
                 </form>
             </div>
-            {users.map(user => (
+            {Array.isArray(users) && users.map(user => (
                 <table key={user.id} id='Ctable' className="table table-borderless bg-black">
                     <tbody>
                         <tr>
@@ -128,21 +135,19 @@ const AdashM = () => {
                             <td colSpan="6" className="hiddenRow">
                                 <div id={`user${user.id}`} className="accordian-body collapse">
                                     <div className="p-3">
-                                        <p className='text-white'>CIN: {user.cin.toUpperCase()}</p>
-                                        <p className='text-white'>Telephone: {user.phone}</p>
+                                        <p className='text-white'>Numéro de carte: {user.numero_carte}</p>
+                                        <p className='text-white'>Téléphone: {user.numero_telephone || 'N/A'}</p>
                                         <p className='text-white'>Role: {user.role}</p>
-                                        <p className='text-white'>MDP: {user.password}</p>
-                                        <p className='text-white'>Status: <span className={`status ${user.is_verified ? 'text-success' : 'text-danger'}`}>&bull;</span> {user.is_verified ? 'Active' : 'Inactive'}</p>
+                                        <p className='text-white'>Status: <span className={`status ${user.is_active ? 'text-success' : 'text-danger'}`}>&bull;</span> {user.is_active ? 'Actif' : 'Inactif'}</p>
                                         <button className="btn btn-danger btn-sm mr-2" onClick={() => deleteUser(user.id)}>
                                             <FontAwesomeIcon icon={faTrash} />
                                         </button>
                                         <button className="btn btn-info btn-sm mx-2">
                                             <FontAwesomeIcon icon={faPen} />
                                         </button>
-                                        <button className="btn btn-success btn-sm mx-2" onClick={() => updateUserStatus(user.id)}>
+                                        <button className="btn btn-success btn-sm mx-2" onClick={() => updateUserStatus(user.id, user.is_active)}>
                                             <FontAwesomeIcon icon={faCheck} />
                                         </button>
-
                                     </div>
                                 </div>
                             </td>
@@ -153,10 +158,10 @@ const AdashM = () => {
 
             {/* Pagination */}
             <div className="clearfix">
-    <div className="hint-text">عرض <b id='g-font'>{(page - 1) * perPage + 1}</b> إلى <b id='g-font'>{Math.min(page * perPage, totalEntries)}</b> من <b id='g-font'>{totalEntries}</b> مدخلات</div>
+    <div className="hint-text">Affichage de <b id='g-font'>{(page - 1) * perPage + 1}</b> à <b id='g-font'>{Math.min(page * perPage, totalEntries)}</b> sur <b id='g-font'>{totalEntries}</b> utilisateurs</div>
     <ul id='pagination' className="pagination">
         <li className="page-item">
-            <button id='a-font' className="page-link mx-1" onClick={() => handlePageChange(page - 1)}>السابق</button>
+            <button id='a-font' className="page-link mx-1" onClick={() => handlePageChange(page - 1)} disabled={page === 1}>Précédent</button>
         </li>
         {Array.from({ length: lastPage }, (_, i) => i + 1).map(p => (
             <li key={p} className={`page-item ${page === p ? 'active' : ''}`}>
@@ -164,7 +169,7 @@ const AdashM = () => {
             </li>
         ))}
         <li className="page-item">
-            <button id='a-font' className="page-link mx-1" onClick={() => handlePageChange(page + 1)}>التالي</button>
+            <button id='a-font' className="page-link mx-1" onClick={() => handlePageChange(page + 1)} disabled={page === lastPage}>Suivant</button>
         </li>
     </ul>
 </div>
