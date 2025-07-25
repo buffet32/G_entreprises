@@ -286,6 +286,83 @@
   font-weight: 500;
 }
 
+/* Secteurs Styles */
+.dashboard-secteurs {
+  margin-top: 40px;
+}
+.dashboard-secteurs-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 32px;
+  justify-content: center;
+}
+.dashboard-secteur-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-decoration: none;
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(140, 84, 188, 0.08);
+  padding: 18px 24px;
+  width: 180px;
+  transition: box-shadow 0.2s;
+}
+.dashboard-secteur-card:hover {
+  box-shadow: 0 4px 16px rgba(140, 84, 188, 0.18);
+}
+.dashboard-secteur-image {
+  width: 100px;
+  height: 100px;
+  object-fit: cover;
+  border-radius: 8px;
+  margin-bottom: 12px;
+  background: #f3f3f3;
+}
+.dashboard-secteur-label {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: #8c54bc;
+  text-align: center;
+}
+
+/* Villes Styles */
+.dashboard-villes {
+  margin-top: 40px;
+}
+.dashboard-villes-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 24px;
+  justify-content: flex-start;
+  margin-left: 40px;
+}
+.dashboard-ville-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-decoration: none;
+  background: #f3f3f3;
+  border-radius: 50px;
+  box-shadow: 0 2px 8px rgba(79, 209, 197, 0.08);
+  padding: 18px 24px;
+  width: 120px;
+  transition: box-shadow 0.2s, background 0.2s;
+}
+.dashboard-ville-card:hover {
+  box-shadow: 0 4px 16px rgba(79, 209, 197, 0.18);
+  background: #e6fcfa;
+}
+.dashboard-ville-icon {
+  margin-bottom: 10px;
+}
+.dashboard-ville-label {
+  font-size: 1rem;
+  font-weight: 600;
+  color: #4fd1c5;
+  text-align: center;
+}
+
 /* Responsive Design */
 @media (max-width: 768px) {
   .dashboard-search-fields {
@@ -314,4 +391,4 @@
     min-width: 180px;
     padding: 16px;
   }
-} 
+}

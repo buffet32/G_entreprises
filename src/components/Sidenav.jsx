@@ -2,7 +2,7 @@
 import React, { useState, useEffect } from "react";
 import axios from 'axios';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faHouse, faBuilding, faPerson, faHeadset, faUser, faUserGear, faUserGroup, faArrowLeft,faUsersRectangle } from '@fortawesome/free-solid-svg-icons';
+import { faHouse, faBuilding, faHeadset, faUsersRectangle } from '@fortawesome/free-solid-svg-icons';
 
 import { Slide, toast } from 'react-toastify';
 
@@ -53,35 +53,29 @@ const Sidenav = () => {
 
     return (
         <>
-        <ul class="sidenav-menu" id="sidenav-menu">
-          <li class="sidenav-item">
-            <a class="sidenav-link" href="/">
+        <ul className="sidenav-menu" id="sidenav-menu">
+          <li className="sidenav-item">
+            <a className="sidenav-link" href="/">
             <FontAwesomeIcon icon={faHouse} />
               <span className="mt-1 ml-3" id="nav_items">Accueil</span>
             </a>
           </li>
-          <li class="sidenav-item">
-            <a class="sidenav-link" onClick={handleCodeRDClick} >
+          <li className="sidenav-item">
+            <a className="sidenav-link" onClick={handleCodeRDClick} >
               <FontAwesomeIcon icon={faBuilding} />
               <span className="mt-1 ml-4" id="nav_items">Code en ligne</span>
               </a>
           </li>
-          <li class="sidenav-item">
-            <a class="sidenav-link">
+          <li className="sidenav-item">
+            <a className="sidenav-link">
                 <FontAwesomeIcon icon={faUsersRectangle} />
               <span  className="mt-1 ml-3" id="nav_items">Personnes morales</span>
             </a>
           </li>
-          <li class="sidenav-item">
-            <a class="sidenav-link">
-                <FontAwesomeIcon icon={faPerson} />
-              <span  className="mt-1 ml-4" id="nav_items">Clients</span>
-            </a>
-          </li>
 
 
-          <li class="sidenav-item">
-            <a class="sidenav-link" href="#about">
+          <li className="sidenav-item">
+            <a className="sidenav-link" href="#about">
             <FontAwesomeIcon icon={faHeadset} />
               <span className="mt-1 ml-3" id="nav_items">Contactez-nous</span>
             </a>

@@ -110,11 +110,18 @@ const AdashM = () => {
     return (
         <div className="container mt-4">
             <h1 id='bnr'>Utilisateurs</h1>
-            <div className="input-group mb-4">
-                <form  d className="form-inline">
-                    <label >Recherche<FontAwesomeIcon className='mx-2' icon={faMagnifyingGlass} /></label>
-                    <input dir='ltr' type="" id="form1" className="form-control" value={search} onChange={(e) => setSearch(e.target.value)} />
+            <div className="input-group mb-4" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                <form className="form-inline" style={{ flex: 1 }}>
+                    <label>Recherche<FontAwesomeIcon className='mx-2' icon={faMagnifyingGlass} /></label>
+                    <input dir='ltr' type="text" id="form1" className="form-control" value={search} onChange={(e) => setSearch(e.target.value)} />
                 </form>
+                <button
+                    style={{ background: '#fbbf24', color: '#23233a', marginLeft: 16, borderRadius: 8, padding: '8px 18px', fontWeight: 600, border: 'none', cursor: 'pointer' }}
+                    onClick={() => navigate('/ajouter-utilisateur')}
+                >
+                    <FontAwesomeIcon icon={faAddressCard} style={{ marginRight: 8 }} />
+                    Ajouter utilisateur
+                </button>
             </div>
             {Array.isArray(users) && users.map(user => (
                 <table key={user.id} id='Ctable' className="table table-borderless bg-black">
@@ -142,7 +149,7 @@ const AdashM = () => {
                                         <button className="btn btn-danger btn-sm mr-2" onClick={() => deleteUser(user.id)}>
                                             <FontAwesomeIcon icon={faTrash} />
                                         </button>
-                                        <button className="btn btn-info btn-sm mx-2">
+                                        <button className="btn btn-info btn-sm mx-2" onClick={() => navigate(`/modifier-utilisateur/${user.id}`)}>
                                             <FontAwesomeIcon icon={faPen} />
                                         </button>
                                         <button className="btn btn-success btn-sm mx-2" onClick={() => updateUserStatus(user.id, user.is_active)}>

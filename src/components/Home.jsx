@@ -3,12 +3,11 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
   faBuilding,
   faUserGroup,
-  faFileAlt,
-  faUserTie,
   faPhoneAlt,
   faEnvelope,
   faSearch,
-  faMapMarkerAlt
+  faMapMarkerAlt,
+  faFileAlt
 } from '@fortawesome/free-solid-svg-icons';
 import {
   faFacebookF,
@@ -251,11 +250,9 @@ const Home = () => {
     <div className="dashboard-container">
       {/* Dashboard Stats */}
       <div className="dashboard-stats">
-        {[
+        {[ 
           { label: "Entreprises", value: entreprises.length, icon: faBuilding, color: "#8c54bc" },
           { label: "Personnes morales", value: entreprises.filter(e => e.type === 'PM').length, icon: faUserGroup, color: "#4fd1c5" },
-          { label: "Nouvelles immat.", value: recentEntreprises.length, icon: faFileAlt, color: "#a78bfa" },
-          ...(isAdmin ? [{ label: "Responsables", value: responsableCount, icon: faUserTie, color: "#fbbf24" }] : []),
         ].map((stat, idx) => (
           <div key={idx} className="dashboard-card">
             <div>
@@ -335,6 +332,7 @@ const Home = () => {
               </button>
             </Link>
           )}
+
         </div>
         {filteredEntreprises.length !== entreprises.length && (
           <div style={{ color: '#4fd1c5', marginTop: 10 }}>
@@ -389,57 +387,6 @@ const Home = () => {
                 </Marker>
               ))}
             </MapContainer>
-          </div>
-        </div>
-        
-        {/* Quick Stats Card */}
-        <div className="dashboard-quickstats-card">
-          <h2>Statistiques rapides</h2>
-          <div>
-            <h3>Répartition par ville</h3>
-            {Object.entries(cityStats).map(([city, count]) => {
-              const percentage = totalCompanies > 0 ? Math.round((count / totalCompanies) * 100) : 0;
-              return (
-                <div key={city} className="dashboard-bar">
-                  <div className="dashboard-bar-labels">
-                    <span>{city}</span>
-                    <span>{percentage}%</span>
-                  </div>
-                  <div className="dashboard-bar-bg">
-                    <div 
-                      className="dashboard-bar-fill" 
-                      style={{ 
-                        width: `${percentage}%`, 
-                        background: '#8c54bc' 
-                      }}
-                    ></div>
-                  </div>
-                </div>
-              );
-            })}
-          </div>
-          <div style={{ marginTop: 24 }}>
-            <h3>Répartition par secteur</h3>
-            {Object.entries(sectorStats).map(([secteur, count]) => {
-              const percentage = totalCompanies > 0 ? Math.round((count / totalCompanies) * 100) : 0;
-              return (
-                <div key={secteur} className="dashboard-bar">
-                  <div className="dashboard-bar-labels">
-                    <span>{secteur}</span>
-                    <span>{percentage}%</span>
-                  </div>
-                  <div className="dashboard-bar-bg">
-                    <div 
-                      className="dashboard-bar-fill" 
-                      style={{ 
-                        width: `${percentage}%`, 
-                        background: '#4fd1c5' 
-                      }}
-                    ></div>
-                  </div>
-                </div>
-              );
-            })}
           </div>
         </div>
       </div>
@@ -531,8 +478,43 @@ const Home = () => {
           ))
         )}
       </div>
+
+      {/* Section Accès rapide par secteur */}
+      <div className="dashboard-secteurs">
+        <h2>Accès rapide par secteur</h2>
+        <div className="dashboard-secteurs-list">
+          {secteurs.map((secteur) => (
+            <Link to={`/secteur/${encodeURIComponent(secteur)}`} key={secteur} className="dashboard-secteur-card">
+              <img 
+                src={
+                  `/src/assets/${secteur.toLowerCase().replace(/ /g, '_')}.webp`
+                }
+                alt={secteur}
+                className="dashboard-secteur-image"
+                onError={e => { e.target.src = '/src/assets/white.webp'; }}
+              />
+              <div className="dashboard-secteur-label">{secteur}</div>
+            </Link>
+          ))}
+        </div>
+      </div>
+
+      {/* Section Accès rapide par ville */}
+      <div className="dashboard-villes">
+        <h2>Accès rapide par ville</h2>
+        <div className="dashboard-villes-list">
+          {villes.map((ville) => (
+            <Link to={`/ville/${encodeURIComponent(ville)}`} key={ville} className="dashboard-ville-card">
+              <div className="dashboard-ville-icon">
+                <svg width="48" height="48" viewBox="0 0 24 24" fill="#4fd1c5"><circle cx="12" cy="12" r="10"/></svg>
+              </div>
+              <div className="dashboard-ville-label">{ville}</div>
+            </Link>
+          ))}
+        </div>
+      </div>
     </div>
   );
 };
 
-export default Home; 
+export default Home;

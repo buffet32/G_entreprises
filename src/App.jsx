@@ -16,6 +16,10 @@ import Profile from './components/Profile';
 import AjouterEntreprise from './components/AjouterEntreprise';
 import VoirEntreprise from './components/VoirEntreprise';
 import ModifierEntreprise from './components/ModifierEntreprise';
+import AjouterUtilisateur from './components/AjouterUtilisateur';
+import ModifierUtilisateur from './components/ModifierUtilisateur';
+import Secteur from './components/Secteur';
+import Ville from './components/Ville';
 
 function App() {
 
@@ -49,6 +53,10 @@ function App() {
             <Route path='/ajouter-entreprise' element={<AjouterEntreprise />}/>
             <Route path='/voir-entreprise/:id' element={<VoirEntreprise />}/>
             <Route path='/modifier-entreprise/:id' element={<ModifierEntreprise />}/>
+            <Route path='/ajouter-utilisateur' element={<AjouterUtilisateur />}/>
+            <Route path="/modifier-utilisateur/:id" element={<ModifierUtilisateur />} />
+            <Route path="/secteur/:secteur" element={<Secteur />} />
+            <Route path="/ville/:ville" element={<Ville />} />
           </Routes>
         </div>
         <Footer/>
