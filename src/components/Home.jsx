@@ -481,36 +481,220 @@ const Home = () => {
 
       {/* Section Accès rapide par secteur */}
       <div className="dashboard-secteurs">
-        <h2>Accès rapide par secteur</h2>
+        <h2 style={{ 
+          textAlign: 'center', 
+          color: '#8c54bc', 
+          fontSize: '2rem', 
+          fontWeight: '700', 
+          marginBottom: '2rem',
+          textShadow: '0 2px 4px rgba(140, 84, 188, 0.3)'
+        }}>
+          Accès rapide par secteur
+        </h2>
         <div className="dashboard-secteurs-list">
-          {secteurs.map((secteur) => (
-            <Link to={`/secteur/${encodeURIComponent(secteur)}`} key={secteur} className="dashboard-secteur-card">
-              <img 
-                src={
-                  `/src/assets/${secteur.toLowerCase().replace(/ /g, '_')}.webp`
-                }
-                alt={secteur}
-                className="dashboard-secteur-image"
-                onError={e => { e.target.src = '/src/assets/white.webp'; }}
-              />
-              <div className="dashboard-secteur-label">{secteur}</div>
-            </Link>
-          ))}
+          {secteurs.map((secteur) => {
+            // Define sector-specific colors and icons
+            const sectorConfig = {
+              'Technologie': { color: '#3B82F6', icon: '💻', bgGradient: 'linear-gradient(135deg, #3B82F6, #1D4ED8)' },
+              'Santé': { color: '#EF4444', icon: '🏥', bgGradient: 'linear-gradient(135deg, #EF4444, #DC2626)' },
+              'Finance': { color: '#10B981', icon: '💰', bgGradient: 'linear-gradient(135deg, #10B981, #059669)' },
+              'Éducation': { color: '#8B5CF6', icon: '🎓', bgGradient: 'linear-gradient(135deg, #8B5CF6, #7C3AED)' },
+              'Transport': { color: '#F59E0B', icon: '🚚', bgGradient: 'linear-gradient(135deg, #F59E0B, #D97706)' },
+              'Construction': { color: '#6B7280', icon: '🏗️', bgGradient: 'linear-gradient(135deg, #6B7280, #4B5563)' },
+              'Commerce': { color: '#EC4899', icon: '🛍️', bgGradient: 'linear-gradient(135deg, #EC4899, #DB2777)' },
+              'Industrie': { color: '#8B5A2B', icon: '🏭', bgGradient: 'linear-gradient(135deg, #8B5A2B, #654321)' },
+              'Agriculture': { color: '#22C55E', icon: '🌾', bgGradient: 'linear-gradient(135deg, #22C55E, #16A34A)' },
+              'Tourisme': { color: '#06B6D4', icon: '🏖️', bgGradient: 'linear-gradient(135deg, #06B6D4, #0891B2)' },
+              'Énergie': { color: '#F97316', icon: '⚡', bgGradient: 'linear-gradient(135deg, #F97316, #EA580C)' },
+              'Télécommunications': { color: '#6366F1', icon: '📡', bgGradient: 'linear-gradient(135deg, #6366F1, #4F46E5)' },
+              'Médias': { color: '#A855F7', icon: '📺', bgGradient: 'linear-gradient(135deg, #A855F7, #9333EA)' },
+              'Consulting': { color: '#14B8A6', icon: '📊', bgGradient: 'linear-gradient(135deg, #14B8A6, #0D9488)' },
+              'Logistique': { color: '#F43F5E', icon: '📦', bgGradient: 'linear-gradient(135deg, #F43F5E, #E11D48)' }
+            };
+
+            const config = sectorConfig[secteur] || { 
+              color: '#8c54bc', 
+              icon: '🏢', 
+              bgGradient: 'linear-gradient(135deg, #8c54bc, #7c3aed)' 
+            };
+
+            return (
+              <Link 
+                to={`/secteur/${encodeURIComponent(secteur)}`} 
+                key={secteur} 
+                className="dashboard-secteur-card"
+                style={{
+                  background: config.bgGradient,
+                  border: '2px solid transparent',
+                  position: 'relative',
+                  overflow: 'hidden'
+                }}
+              >
+                <div 
+                  className="dashboard-secteur-icon"
+                  style={{
+                    fontSize: '3rem',
+                    marginBottom: '1rem',
+                    filter: 'drop-shadow(0 4px 8px rgba(0,0,0,0.3))'
+                  }}
+                >
+                  {config.icon}
+                </div>
+                <div 
+                  className="dashboard-secteur-label"
+                  style={{
+                    color: '#fff',
+                    fontWeight: '700',
+                    fontSize: '1.1rem',
+                    textShadow: '0 2px 4px rgba(0,0,0,0.3)',
+                    textAlign: 'center'
+                  }}
+                >
+                  {secteur}
+                </div>
+                <div 
+                  className="dashboard-secteur-count"
+                  style={{
+                    color: 'rgba(255,255,255,0.9)',
+                    fontSize: '0.9rem',
+                    marginTop: '0.5rem',
+                    fontWeight: '500'
+                  }}
+                >
+                  {entreprises.filter(e => e.secteur === secteur).length} entreprises
+                </div>
+                <div 
+                  className="dashboard-secteur-overlay"
+                  style={{
+                    position: 'absolute',
+                    top: 0,
+                    left: 0,
+                    right: 0,
+                    bottom: 0,
+                    background: 'rgba(255,255,255,0.1)',
+                    opacity: 0,
+                    transition: 'opacity 0.3s ease',
+                    pointerEvents: 'none'
+                  }}
+                />
+              </Link>
+            );
+          })}
         </div>
       </div>
 
       {/* Section Accès rapide par ville */}
       <div className="dashboard-villes">
-        <h2>Accès rapide par ville</h2>
+        <h2 style={{ 
+          textAlign: 'center', 
+          color: '#4fd1c5', 
+          fontSize: '2rem', 
+          fontWeight: '700', 
+          marginBottom: '2rem',
+          textShadow: '0 2px 4px rgba(79, 209, 197, 0.3)'
+        }}>
+          Accès rapide par ville
+        </h2>
         <div className="dashboard-villes-list">
-          {villes.map((ville) => (
-            <Link to={`/ville/${encodeURIComponent(ville)}`} key={ville} className="dashboard-ville-card">
-              <div className="dashboard-ville-icon">
-                <svg width="48" height="48" viewBox="0 0 24 24" fill="#4fd1c5"><circle cx="12" cy="12" r="10"/></svg>
-              </div>
-              <div className="dashboard-ville-label">{ville}</div>
-            </Link>
-          ))}
+          {villes.map((ville) => {
+            // Calculate company count for this city
+            const companyCount = entreprises.filter(e => e.ville === ville).length;
+            
+            // Define city-specific colors and icons based on company count
+            const getCityConfig = (count) => {
+              if (count >= 20) return { 
+                color: '#10B981', 
+                icon: '🏙️', 
+                bgGradient: 'linear-gradient(135deg, #10B981, #059669)',
+                size: 'large'
+              };
+              if (count >= 10) return { 
+                color: '#3B82F6', 
+                icon: '🏘️', 
+                bgGradient: 'linear-gradient(135deg, #3B82F6, #1D4ED8)',
+                size: 'medium'
+              };
+              if (count >= 5) return { 
+                color: '#F59E0B', 
+                icon: '🏡', 
+                bgGradient: 'linear-gradient(135deg, #F59E0B, #D97706)',
+                size: 'small'
+              };
+              return { 
+                color: '#6B7280', 
+                icon: '🏠', 
+                bgGradient: 'linear-gradient(135deg, #6B7280, #4B5563)',
+                size: 'tiny'
+              };
+            };
+
+            const config = getCityConfig(companyCount);
+
+            return (
+              <Link 
+                to={`/ville/${encodeURIComponent(ville)}`} 
+                key={ville} 
+                className="dashboard-ville-card"
+                style={{
+                  background: config.bgGradient,
+                  border: '2px solid transparent',
+                  position: 'relative',
+                  overflow: 'hidden',
+                  minHeight: config.size === 'large' ? '180px' : config.size === 'medium' ? '160px' : '140px'
+                }}
+              >
+                <div 
+                  className="dashboard-ville-icon"
+                  style={{
+                    fontSize: config.size === 'large' ? '3rem' : config.size === 'medium' ? '2.5rem' : '2rem',
+                    marginBottom: '1rem',
+                    filter: 'drop-shadow(0 4px 8px rgba(0,0,0,0.3))',
+                    transition: 'transform 0.3s ease'
+                  }}
+                >
+                  {config.icon}
+                </div>
+                <div 
+                  className="dashboard-ville-label"
+                  style={{
+                    color: '#fff',
+                    fontWeight: '700',
+                    fontSize: config.size === 'large' ? '1.2rem' : '1rem',
+                    textShadow: '0 2px 4px rgba(0,0,0,0.3)',
+                    textAlign: 'center',
+                    marginBottom: '0.5rem'
+                  }}
+                >
+                  {ville}
+                </div>
+                <div 
+                  className="dashboard-ville-count"
+                  style={{
+                    color: 'rgba(255,255,255,0.9)',
+                    fontSize: '0.9rem',
+                    fontWeight: '500',
+                    textAlign: 'center'
+                  }}
+                >
+                  {companyCount} entreprise{companyCount > 1 ? 's' : ''}
+                </div>
+                <div 
+                  className="dashboard-ville-overlay"
+                  style={{
+                    position: 'absolute',
+                    top: 0,
+                    left: 0,
+                    right: 0,
+                    bottom: 0,
+                    background: 'rgba(255,255,255,0.1)',
+                    opacity: 0,
+                    transition: 'opacity 0.3s ease',
+                    pointerEvents: 'none'
+                  }}
+                />
+              </Link>
+            );
+          })}
         </div>
       </div>
     </div>

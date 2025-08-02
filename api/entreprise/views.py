@@ -40,18 +40,10 @@ class MyTokenObtainPairSerializer(TokenObtainPairSerializer):
 
     def validate(self, attrs):
         username = attrs.get('username', None)
-        numero_telephone = attrs.get('numero_telephone', None)
         password = attrs.get('password')
         user = None
         if username:
             user = authenticate(request=self.context.get('request'), username=username, password=password)
-        elif numero_telephone:
-            try:
-                from .models import CustomUser
-                user_obj = CustomUser.objects.get(numero_telephone=numero_telephone)
-                user = authenticate(request=self.context.get('request'), username=user_obj.username, password=password)
-            except CustomUser.DoesNotExist:
-                pass
         if not user:
             from rest_framework.exceptions import AuthenticationFailed
             raise AuthenticationFailed('Aucun utilisateur trouvé avec ces identifiants.')
