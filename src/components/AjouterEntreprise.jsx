@@ -457,7 +457,7 @@ const AjouterEntreprise = () => {
   };
 
   return (
-    <div className="dashboard-container" style={{ maxWidth: 700, margin: "0 auto" }}>
+    <div className="dashboard-container" style={{ maxWidth: 1200, margin: "0 auto" }}>
       <h2 style={{ color: "#fff", marginBottom: 24 }}>Ajouter une entreprise</h2>
       
       {/* Message display */}
@@ -484,194 +484,435 @@ const AjouterEntreprise = () => {
       )}
 
       <form className="dashboard-search" onSubmit={handleSubmit}>
-        <div className="dashboard-search-fields" style={{ flexDirection: "column", gap: 18 }}>
-          <label>
-            Nom de l'entreprise*<br />
-            <input className="dashboard-input" name="nom_entreprise" value={form.nom_entreprise} onChange={handleChange} required />
-          </label>
-          <label>
-            Code ICE*<br />
-            <input className="dashboard-input" name="code_ice" value={form.code_ice} onChange={handleChange} required />
-          </label>
-          <label>
-            Secteur*<br />
-            <select className="dashboard-input" name="secteur" value={form.secteur} onChange={handleChange} required>
-              <option value="">Sélectionner un secteur</option>
-              <option value="Hôtellerie">Hôtellerie</option>
-              <option value="Commerce">Commerce</option>
-              <option value="Services">Services</option>
-              <option value="Industrie">Industrie</option>
-              <option value="Tourisme">Tourisme</option>
-              <option value="Restauration">Restauration</option>
-              <option value="Transport">Transport</option>
-              <option value="Santé">Santé</option>
-              <option value="Finance">Finance</option>
-              <option value="Agriculture">Agriculture</option>
-            </select>
-          </label>
-          <label>
-            Forme juridique*<br />
-            <select className="dashboard-input" name="forme_juridique" value={form.forme_juridique} onChange={handleChange} required>
-              <option value="SA">SA</option>
-              <option value="SARL">SARL</option>
-              <option value="SNC">SNC</option>
-              <option value="SCS">SCS</option>
-              <option value="autre">Autre</option>
-            </select>
-          </label>
-          <label>
-            Ville*<br />
-            <input className="dashboard-input" name="ville" value={form.ville} onChange={handleAddressChange} required />
-          </label>
-          <label>
-            Adresse*<br />
-            <input 
-              className="dashboard-input" 
-              name="adresse" 
-              value={form.adresse} 
-              onChange={handleAddressChange} 
-              required 
-              placeholder="Ex: Avenue Mohammed V ou CWP2+WQ (Plus Code)"
-            />
-            <div style={{ fontSize: '12px', color: '#888', marginTop: '4px' }}>
-              Vous pouvez saisir une adresse normale ou un Plus Code (ex: CWP2+WQ)
-            </div>
-            {extractPlusCode(form.adresse) && (
-              <div style={{ fontSize: '12px', color: '#4fd1c5', marginTop: '4px', fontWeight: 'bold' }}>
-                Plus Code détecté: {extractPlusCode(form.adresse)}
-              </div>
-            )}
-          </label>
-          
-          {/* Coordinates section with geocoding */}
-          <div style={{ display: 'flex', gap: '10px', alignItems: 'flex-end' }}>
-            <label style={{ flex: 1 }}>
-              Latitude*<br />
+        <div style={{ 
+          display: 'grid', 
+          gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', 
+          gap: '2rem',
+          marginBottom: '2rem'
+        }}>
+          {/* Première colonne - Informations de base */}
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
+            <h3 style={{ 
+              color: '#8c54bc', 
+              fontSize: '1.3rem', 
+              fontWeight: '600', 
+              marginBottom: '1rem',
+              borderBottom: '2px solid #8c54bc',
+              paddingBottom: '0.5rem'
+            }}>
+              Informations de base
+            </h3>
+            
+            <label style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
+              <span style={{ fontWeight: '600', color: '#374151' }}>Nom de l'entreprise*</span>
               <input 
                 className="dashboard-input" 
-                name="latitude" 
-                value={form.latitude} 
+                name="nom_entreprise" 
+                value={form.nom_entreprise} 
                 onChange={handleChange} 
                 required 
-                type="number" 
-                step="any" 
-                placeholder="31.6295"
+                style={{ padding: '12px 16px', fontSize: '16px' }}
+                placeholder="Entrez le nom de l'entreprise"
               />
             </label>
-            <label style={{ flex: 1 }}>
-              Longitude*<br />
+            
+            <label style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
+              <span style={{ fontWeight: '600', color: '#374151' }}>Code ICE*</span>
               <input 
                 className="dashboard-input" 
-                name="longitude" 
-                value={form.longitude} 
+                name="code_ice" 
+                value={form.code_ice} 
                 onChange={handleChange} 
                 required 
-                type="number" 
-                step="any" 
-                placeholder="-7.9811"
+                style={{ padding: '12px 16px', fontSize: '16px' }}
+                placeholder="Ex: 000123456789"
               />
             </label>
-            <button 
-              type="button"
-              onClick={handleManualGeocode}
-              disabled={geocoding}
-              style={{ 
-                background: "#4fd1c5", 
-                color: "#fff", 
-                border: "none", 
-                borderRadius: "8px", 
-                padding: "10px 16px",
-                cursor: geocoding ? "not-allowed" : "pointer",
-                opacity: geocoding ? 0.6 : 1
-              }}
-            >
-              {geocoding ? (
-                <FontAwesomeIcon icon={faSpinner} spin />
-              ) : (
-                <FontAwesomeIcon icon={faMapMarkerAlt} />
-              )}
-            </button>
+            
+            <label style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
+              <span style={{ fontWeight: '600', color: '#374151' }}>Secteur*</span>
+              <select 
+                className="dashboard-input" 
+                name="secteur" 
+                value={form.secteur} 
+                onChange={handleChange} 
+                required
+                style={{ padding: '12px 16px', fontSize: '16px' }}
+              >
+                <option value="">Sélectionner un secteur</option>
+                <option value="Hôtellerie">Hôtellerie</option>
+                <option value="Commerce">Commerce</option>
+                <option value="Services">Services</option>
+                <option value="Industrie">Industrie</option>
+                <option value="Tourisme">Tourisme</option>
+                <option value="Restauration">Restauration</option>
+                <option value="Transport">Transport</option>
+                <option value="Santé">Santé</option>
+                <option value="Finance">Finance</option>
+                <option value="Agriculture">Agriculture</option>
+                <option value="Technologie">Technologie</option>
+                <option value="Éducation">Éducation</option>
+                <option value="Construction">Construction</option>
+                <option value="Énergie">Énergie</option>
+                <option value="Télécommunications">Télécommunications</option>
+                <option value="Médias">Médias</option>
+                <option value="Consulting">Consulting</option>
+                <option value="Logistique">Logistique</option>
+              </select>
+            </label>
+            
+            <label style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
+              <span style={{ fontWeight: '600', color: '#374151' }}>Forme juridique*</span>
+              <select 
+                className="dashboard-input" 
+                name="forme_juridique" 
+                value={form.forme_juridique} 
+                onChange={handleChange} 
+                required
+                style={{ padding: '12px 16px', fontSize: '16px' }}
+              >
+                <option value="SA">SA</option>
+                <option value="SARL">SARL</option>
+                <option value="SNC">SNC</option>
+                <option value="SCS">SCS</option>
+                <option value="autre">Autre</option>
+              </select>
+            </label>
+            
+            <label style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
+              <span style={{ fontWeight: '600', color: '#374151' }}>Type*</span>
+              <select 
+                className="dashboard-input" 
+                name="type" 
+                value={form.type} 
+                onChange={handleChange} 
+                required
+                style={{ padding: '12px 16px', fontSize: '16px' }}
+              >
+                <option value="PP">Personne Physique</option>
+                <option value="PM">Personne Morale</option>
+              </select>
+            </label>
+            
+            <label style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
+              <span style={{ fontWeight: '600', color: '#374151' }}>Activité*</span>
+              <input 
+                className="dashboard-input" 
+                name="activite" 
+                value={form.activite} 
+                onChange={handleChange} 
+                required 
+                style={{ padding: '12px 16px', fontSize: '16px' }}
+                placeholder="Description de l'activité principale"
+              />
+            </label>
           </div>
-          
-          <label>
-            Activité*<br />
-            <input className="dashboard-input" name="activite" value={form.activite} onChange={handleChange} required />
-          </label>
-          <label>
-            Type*<br />
-            <select className="dashboard-input" name="type" value={form.type} onChange={handleChange} required>
-              <option value="PP">Personne Physique</option>
-              <option value="PM">Personne Morale</option>
-            </select>
-          </label>
-          <label>
-            Email<br />
-            <input className="dashboard-input" name="email" value={form.email} onChange={handleChange} type="email" />
-          </label>
-          <label>
-            Fax<br />
-            <input className="dashboard-input" name="fax" value={form.fax} onChange={handleChange} />
-          </label>
-          <label>
-            Site web<br />
-            <input className="dashboard-input" name="site_web" value={form.site_web} onChange={handleChange} />
-          </label>
-          <label>
-            Contact<br />
-            <input className="dashboard-input" name="contact" value={form.contact} onChange={handleChange} />
-          </label>
-          <label>
-            Téléphone<br />
-            <input className="dashboard-input" name="tel" value={form.tel} onChange={handleChange} />
-          </label>
-          <label>
-            Certifications<br />
-            <input className="dashboard-input" name="certifications" value={form.certifications} onChange={handleChange} placeholder="ISO 9001, HACCP, etc." />
-          </label>
-          <label>
-            CNSS<br />
-            <input className="dashboard-input" name="cnss" value={form.cnss} onChange={handleChange} />
-          </label>
-          <label>
-            Identifiant fiscal<br />
-            <input className="dashboard-input" name="identifiant_fiscal" value={form.identifiant_fiscal} onChange={handleChange} />
-          </label>
-          <label>
-            Patente<br />
-            <input className="dashboard-input" name="patente" value={form.patente} onChange={handleChange} />
-          </label>
-          <label>
-            RC<br />
-            <input className="dashboard-input" name="rc" value={form.rc} onChange={handleChange} />
-          </label>
-          <label>
-            En activité<br />
-            <select className="dashboard-input" name="en_activite" value={form.en_activite} onChange={handleChange}>
-              <option value="oui">Oui</option>
-              <option value="non">Non</option>
-            </select>
-          </label>
-          <label>
-            Taille de l'entreprise*<br />
-            <select className="dashboard-input" name="taille_entreprise" value={form.taille_entreprise} onChange={handleChange} required>
-              <option value="PME">Petite et Moyenne Entreprise</option>
-              <option value="GE">Grande Entreprise</option>
-              <option value="SU">Startup</option>
-            </select>
-          </label>
+
+          {/* Deuxième colonne - Localisation */}
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
+            <h3 style={{ 
+              color: '#4fd1c5', 
+              fontSize: '1.3rem', 
+              fontWeight: '600', 
+              marginBottom: '1rem',
+              borderBottom: '2px solid #4fd1c5',
+              paddingBottom: '0.5rem'
+            }}>
+              Localisation
+            </h3>
+            
+            <label style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
+              <span style={{ fontWeight: '600', color: '#374151' }}>Ville*</span>
+              <input 
+                className="dashboard-input" 
+                name="ville" 
+                value={form.ville} 
+                onChange={handleAddressChange} 
+                required 
+                style={{ padding: '12px 16px', fontSize: '16px' }}
+                placeholder="Ex: Marrakech"
+              />
+            </label>
+            
+            <label style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
+              <span style={{ fontWeight: '600', color: '#374151' }}>Adresse*</span>
+              <input 
+                className="dashboard-input" 
+                name="adresse" 
+                value={form.adresse} 
+                onChange={handleAddressChange} 
+                required 
+                placeholder="Ex: Avenue Mohammed V ou CWP2+WQ (Plus Code)"
+                style={{ padding: '12px 16px', fontSize: '16px' }}
+              />
+              <div style={{ fontSize: '12px', color: '#888', marginTop: '4px' }}>
+                Vous pouvez saisir une adresse normale ou un Plus Code (ex: CWP2+WQ)
+              </div>
+              {extractPlusCode(form.adresse) && (
+                <div style={{ fontSize: '12px', color: '#4fd1c5', marginTop: '4px', fontWeight: 'bold' }}>
+                  Plus Code détecté: {extractPlusCode(form.adresse)}
+                </div>
+              )}
+            </label>
+            
+            {/* Coordinates section with geocoding */}
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
+              <label style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
+                <span style={{ fontWeight: '600', color: '#374151' }}>Latitude*</span>
+                <input 
+                  className="dashboard-input" 
+                  name="latitude" 
+                  value={form.latitude} 
+                  onChange={handleChange} 
+                  required 
+                  type="number" 
+                  step="any" 
+                  placeholder="31.6295"
+                  style={{ padding: '12px 16px', fontSize: '16px' }}
+                />
+              </label>
+              
+              <label style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
+                <span style={{ fontWeight: '600', color: '#374151' }}>Longitude*</span>
+                <input 
+                  className="dashboard-input" 
+                  name="longitude" 
+                  value={form.longitude} 
+                  onChange={handleChange} 
+                  required 
+                  type="number" 
+                  step="any" 
+                  placeholder="-7.9811"
+                  style={{ padding: '12px 16px', fontSize: '16px' }}
+                />
+              </label>
+              
+              <div style={{ display: 'flex', justifyContent: 'center', marginTop: '0.5rem' }}>
+                <button 
+                  type="button"
+                  onClick={handleManualGeocode}
+                  disabled={geocoding}
+                  style={{ 
+                    background: "#4fd1c5", 
+                    color: "#fff", 
+                    border: "none", 
+                    borderRadius: "8px", 
+                    padding: "12px 16px",
+                    cursor: geocoding ? "not-allowed" : "pointer",
+                    opacity: geocoding ? 0.6 : 1,
+                    width: 'fit-content'
+                  }}
+                  title="Géocoder l'adresse"
+                >
+                  {geocoding ? (
+                    <FontAwesomeIcon icon={faSpinner} spin />
+                  ) : (
+                    <FontAwesomeIcon icon={faMapMarkerAlt} />
+                  )}
+                </button>
+              </div>
+            </div>
+          </div>
+
+          {/* Troisième colonne - Contact et informations légales */}
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
+            <h3 style={{ 
+              color: '#a78bfa', 
+              fontSize: '1.3rem', 
+              fontWeight: '600', 
+              marginBottom: '1rem',
+              borderBottom: '2px solid #a78bfa',
+              paddingBottom: '0.5rem'
+            }}>
+              Contact & Informations légales
+            </h3>
+            
+            <label style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
+              <span style={{ fontWeight: '600', color: '#374151' }}>Email</span>
+              <input 
+                className="dashboard-input" 
+                name="email" 
+                value={form.email} 
+                onChange={handleChange} 
+                type="email" 
+                style={{ padding: '12px 16px', fontSize: '16px' }}
+                placeholder="exemple@entreprise.com"
+              />
+            </label>
+            
+            <label style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
+              <span style={{ fontWeight: '600', color: '#374151' }}>Téléphone</span>
+              <input 
+                className="dashboard-input" 
+                name="tel" 
+                value={form.tel} 
+                onChange={handleChange} 
+                style={{ padding: '12px 16px', fontSize: '16px' }}
+                placeholder="Ex: +212 5XX XX XX XX"
+              />
+            </label>
+            
+            <label style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
+              <span style={{ fontWeight: '600', color: '#374151' }}>Contact</span>
+              <input 
+                className="dashboard-input" 
+                name="contact" 
+                value={form.contact} 
+                onChange={handleChange} 
+                style={{ padding: '12px 16px', fontSize: '16px' }}
+                placeholder="Nom du contact principal"
+              />
+            </label>
+            
+            <label style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
+              <span style={{ fontWeight: '600', color: '#374151' }}>Fax</span>
+              <input 
+                className="dashboard-input" 
+                name="fax" 
+                value={form.fax} 
+                onChange={handleChange} 
+                style={{ padding: '12px 16px', fontSize: '16px' }}
+                placeholder="Ex: +212 5XX XX XX XX"
+              />
+            </label>
+            
+            <label style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
+              <span style={{ fontWeight: '600', color: '#374151' }}>Site web</span>
+              <input 
+                className="dashboard-input" 
+                name="site_web" 
+                value={form.site_web} 
+                onChange={handleChange} 
+                style={{ padding: '12px 16px', fontSize: '16px' }}
+                placeholder="https://www.exemple.com"
+              />
+            </label>
+            
+            <label style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
+              <span style={{ fontWeight: '600', color: '#374151' }}>Certifications</span>
+              <input 
+                className="dashboard-input" 
+                name="certifications" 
+                value={form.certifications} 
+                onChange={handleChange} 
+                placeholder="ISO 9001, HACCP, etc."
+                style={{ padding: '12px 16px', fontSize: '16px' }}
+              />
+            </label>
+            
+            <label style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
+              <span style={{ fontWeight: '600', color: '#374151' }}>CNSS</span>
+              <input 
+                className="dashboard-input" 
+                name="cnss" 
+                value={form.cnss} 
+                onChange={handleChange} 
+                style={{ padding: '12px 16px', fontSize: '16px' }}
+                placeholder="Numéro CNSS"
+              />
+            </label>
+            
+            <label style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
+              <span style={{ fontWeight: '600', color: '#374151' }}>Identifiant fiscal</span>
+              <input 
+                className="dashboard-input" 
+                name="identifiant_fiscal" 
+                value={form.identifiant_fiscal} 
+                onChange={handleChange} 
+                style={{ padding: '12px 16px', fontSize: '16px' }}
+                placeholder="Identifiant fiscal"
+              />
+            </label>
+            
+            <label style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
+              <span style={{ fontWeight: '600', color: '#374151' }}>Patente</span>
+              <input 
+                className="dashboard-input" 
+                name="patente" 
+                value={form.patente} 
+                onChange={handleChange} 
+                style={{ padding: '12px 16px', fontSize: '16px' }}
+                placeholder="Numéro de patente"
+              />
+            </label>
+            
+            <label style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
+              <span style={{ fontWeight: '600', color: '#374151' }}>RC</span>
+              <input 
+                className="dashboard-input" 
+                name="rc" 
+                value={form.rc} 
+                onChange={handleChange} 
+                style={{ padding: '12px 16px', fontSize: '16px' }}
+                placeholder="Registre de commerce"
+              />
+            </label>
+            
+            <label style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
+              <span style={{ fontWeight: '600', color: '#374151' }}>En activité</span>
+              <select 
+                className="dashboard-input" 
+                name="en_activite" 
+                value={form.en_activite} 
+                onChange={handleChange}
+                style={{ padding: '12px 16px', fontSize: '16px' }}
+              >
+                <option value="oui">Oui</option>
+                <option value="non">Non</option>
+              </select>
+            </label>
+            
+            <label style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
+              <span style={{ fontWeight: '600', color: '#374151' }}>Taille de l'entreprise*</span>
+              <select 
+                className="dashboard-input" 
+                name="taille_entreprise" 
+                value={form.taille_entreprise} 
+                onChange={handleChange} 
+                required
+                style={{ padding: '12px 16px', fontSize: '16px' }}
+              >
+                <option value="PME">Petite et Moyenne Entreprise</option>
+                <option value="GE">Grande Entreprise</option>
+                <option value="SU">Startup</option>
+              </select>
+            </label>
+          </div>
         </div>
+        
         <div className="dashboard-search-actions" style={{ justifyContent: "flex-end" }}>
           <button 
             type="button" 
             onClick={() => navigate('/')}
-            style={{ background: "#6b7280", color: "#fff", marginRight: 12 }}
+            style={{ 
+              background: "#6b7280", 
+              color: "#fff", 
+              marginRight: 12,
+              padding: '12px 24px',
+              fontSize: '16px',
+              fontWeight: '600',
+              borderRadius: '8px',
+              border: 'none',
+              cursor: 'pointer',
+              transition: 'all 0.3s ease'
+            }}
             disabled={loading}
           >
             Annuler
           </button>
           <button 
             type="submit" 
-            style={{ background: "#8c54bc", color: "#fff" }}
+            style={{ 
+              background: "#8c54bc", 
+              color: "#fff",
+              padding: '12px 24px',
+              fontSize: '16px',
+              fontWeight: '600',
+              borderRadius: '8px',
+              border: 'none',
+              cursor: 'pointer',
+              transition: 'all 0.3s ease'
+            }}
             disabled={loading}
           >
             {loading ? (
