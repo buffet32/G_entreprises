@@ -363,10 +363,12 @@ const SearchPage = () => {
         display: 'flex', 
         alignItems: 'center', 
         marginBottom: '2rem',
-        padding: '1rem',
-        background: 'linear-gradient(135deg, #8c54bc, #7c3aed)',
-        borderRadius: '12px',
-        color: 'white'
+        padding: '1.5rem',
+        background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+        borderRadius: '16px',
+        color: 'white',
+        boxShadow: '0 8px 32px rgba(102, 126, 234, 0.3)',
+        border: '1px solid rgba(255, 255, 255, 0.2)'
       }}>
         <Link to="/" style={{ textDecoration: 'none', color: 'white', marginRight: '1rem' }}>
           <FontAwesomeIcon icon={faArrowLeft} style={{ fontSize: '1.5rem' }} />
@@ -379,11 +381,13 @@ const SearchPage = () => {
       {/* Search Bar with Mini Map */}
       <div style={{
         height: '14rem',
-        background: 'white',
+        background: 'linear-gradient(135deg, rgba(102, 126, 234, 0.05) 0%, rgba(118, 75, 162, 0.05) 100%)',
         padding: '2rem 1.5rem 1.5rem 1.5rem',
-        borderRadius: '12px',
-        boxShadow: '0 4px 12px rgba(0,0,0,0.1)',
-        marginBottom: '1rem'
+        borderRadius: '16px',
+        boxShadow: '0 8px 32px rgba(102, 126, 234, 0.1)',
+        marginBottom: '1rem',
+        border: '1px solid rgba(102, 126, 234, 0.1)',
+        backdropFilter: 'blur(10px)'
       }}>
         <div style={{ 
           display: 'flex', 
@@ -434,10 +438,10 @@ const SearchPage = () => {
               position: 'absolute',
               bottom: '8px',
               right: '8px',
-              background: 'rgba(140, 84, 188, 0.9)',
+              background: 'rgba(102, 126, 234, 0.9)',
               color: 'white',
               border: 'none',
-              borderRadius: '4px',
+              borderRadius: '6px',
               padding: '6px 10px',
               fontSize: '11px',
               fontWeight: '500',
@@ -445,7 +449,7 @@ const SearchPage = () => {
               display: 'flex',
               alignItems: 'center',
               gap: '6px',
-              boxShadow: '0 2px 4px rgba(0,0,0,0.2)'
+              boxShadow: '0 2px 8px rgba(102, 126, 234, 0.3)'
             }}>
               <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor">
                 <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/>
@@ -457,20 +461,30 @@ const SearchPage = () => {
           {/* Search Input */}
           <input 
             style={{
-              padding: '12px 16px',
+              padding: '14px 18px',
               border: '2px solid #e5e7eb',
-              borderRadius: '8px',
+              borderRadius: '12px',
               fontSize: '16px',
               outline: 'none',
-              transition: 'border-color 0.3s ease',
+              transition: 'all 0.3s ease',
               minWidth: '200px',
-              flex: 1
+              flex: 1,
+              background: 'rgba(255, 255, 255, 0.95)',
+              boxShadow: '0 2px 8px rgba(0, 0, 0, 0.05)'
             }}
             placeholder="Nom de l'entreprise, adresse, activité..." 
             value={tempSearchTerm}
             onChange={(e) => setTempSearchTerm(e.target.value)}
-            onFocus={(e) => e.target.style.borderColor = '#8c54bc'}
-            onBlur={(e) => e.target.style.borderColor = '#e5e7eb'}
+            onFocus={(e) => {
+              e.target.style.borderColor = '#667eea';
+              e.target.style.boxShadow = '0 4px 16px rgba(102, 126, 234, 0.2)';
+              e.target.style.transform = 'translateY(-1px)';
+            }}
+            onBlur={(e) => {
+              e.target.style.borderColor = '#e5e7eb';
+              e.target.style.boxShadow = '0 2px 8px rgba(0, 0, 0, 0.05)';
+              e.target.style.transform = 'translateY(0)';
+            }}
           />
 
           {/* Sector Filter */}
@@ -549,20 +563,28 @@ const SearchPage = () => {
           <button 
             onClick={handleSearch}
             style={{
-              background: 'linear-gradient(135deg, #8c54bc, #7c3aed)',
+              background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
               color: 'white',
               border: 'none',
-              borderRadius: '8px',
-              padding: '12px 24px',
+              borderRadius: '12px',
+              padding: '14px 28px',
               fontSize: '16px',
               fontWeight: '600',
               cursor: 'pointer',
-              transition: 'transform 0.2s ease',
+              transition: 'all 0.3s ease',
               flexShrink: 0,
-              marginTop: '-60px'
+              marginTop: '-60px',
+              boxShadow: '0 4px 16px rgba(102, 126, 234, 0.3)',
+              border: '1px solid rgba(255, 255, 255, 0.2)'
             }}
-            onMouseOver={(e) => e.target.style.transform = 'translateY(-1px)'}
-            onMouseOut={(e) => e.target.style.transform = 'translateY(0)'}
+            onMouseOver={(e) => {
+              e.target.style.transform = 'translateY(-2px)';
+              e.target.style.boxShadow = '0 8px 24px rgba(102, 126, 234, 0.4)';
+            }}
+            onMouseOut={(e) => {
+              e.target.style.transform = 'translateY(0)';
+              e.target.style.boxShadow = '0 4px 16px rgba(102, 126, 234, 0.3)';
+            }}
           >
             <FontAwesomeIcon icon={faSearch} style={{ marginRight: 8 }} />
             Rechercher
@@ -572,36 +594,42 @@ const SearchPage = () => {
         {/* Results Count */}
         {filteredEntreprises.length !== entreprises.length && (
           <div style={{ 
-            color: '#4fd1c5', 
+            color: '#667eea', 
             marginTop: '1rem',
             fontSize: '14px',
-            fontWeight: '500'
+            fontWeight: '600',
+            textAlign: 'center',
+            padding: '8px 16px',
+            background: 'rgba(102, 126, 234, 0.1)',
+            borderRadius: '8px',
+            border: '1px solid rgba(102, 126, 234, 0.2)'
           }}>
             {filteredEntreprises.length} résultat(s) trouvé(s) sur {entreprises.length} entreprises
           </div>
         )}
       </div>
 
-      {/* Full Screen Map Overlay */}
-      {fullScreenMap && (
-        <div style={{
-          position: 'fixed',
-          top: 0,
-          left: 0,
-          right: 0,
-          bottom: 0,
-          background: 'white',
-          zIndex: 9999,
-          display: 'flex',
-          flexDirection: 'column'
-        }}>
+                {/* Full Screen Map Overlay */}
+          {fullScreenMap && (
+            <div style={{
+              position: 'fixed',
+              top: 0,
+              left: 0,
+              right: 0,
+              bottom: 0,
+              background: 'linear-gradient(135deg, rgba(102, 126, 234, 0.02) 0%, rgba(118, 75, 162, 0.02) 100%)',
+              zIndex: 9999,
+              display: 'flex',
+              flexDirection: 'column',
+              backdropFilter: 'blur(5px)'
+            }}>
           {/* Map Header */}
           <div style={{
             display: 'flex',
             justifyContent: 'space-between',
             alignItems: 'center',
             padding: '1rem 2rem',
-            background: 'linear-gradient(135deg, #8c54bc, #7c3aed)',
+            background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
             color: 'white'
           }}>
             <h2 style={{ margin: 0, fontSize: '1.5rem', fontWeight: '600' }}>
@@ -649,9 +677,9 @@ const SearchPage = () => {
                 >
                   <Popup>
                     <div style={{ minWidth: '200px' }}>
-                      <h3 style={{ margin: '0 0 10px 0', color: '#8c54bc' }}>
-                        {entreprise.nom_entreprise}
-                      </h3>
+                                              <h3 style={{ margin: '0 0 10px 0', color: '#667eea' }}>
+                          {entreprise.nom_entreprise}
+                        </h3>
                       <p style={{ margin: '5px 0', fontSize: '14px' }}>
                         <strong>Secteur:</strong> {entreprise.secteur}
                       </p>
@@ -682,19 +710,27 @@ const SearchPage = () => {
         {showFilters && (
           <div style={{
             width: '300px',
-            background: 'white',
-            borderRadius: '12px',
+            background: 'linear-gradient(135deg, rgba(102, 126, 234, 0.03) 0%, rgba(118, 75, 162, 0.03) 100%)',
+            borderRadius: '16px',
             padding: '1.5rem',
-            boxShadow: '0 4px 12px rgba(0,0,0,0.1)',
+            boxShadow: '0 8px 32px rgba(102, 126, 234, 0.08)',
             height: 'fit-content',
             position: 'sticky',
-            top: '2rem'
+            top: '2rem',
+            border: '1px solid rgba(102, 126, 234, 0.08)',
+            backdropFilter: 'blur(10px)'
           }}>
             <h3 style={{ 
               margin: '0 0 1.5rem 0', 
-              color: '#8c54bc',
-              fontSize: '1.2rem',
-              fontWeight: '600'
+              color: '#667eea',
+              fontSize: '1.3rem',
+              fontWeight: '700',
+              textAlign: 'center',
+              padding: '12px',
+              background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+              color: 'white',
+              borderRadius: '8px',
+              marginBottom: '2rem'
             }}>
               Filtres
             </h3>
@@ -929,14 +965,24 @@ const SearchPage = () => {
                   onClick={handleSearch}
                   style={{
                     flex: 1,
-                    background: 'linear-gradient(135deg, #8c54bc, #7c3aed)',
+                    background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
                     color: 'white',
                     border: 'none',
-                    borderRadius: '6px',
-                    padding: '10px',
+                    borderRadius: '8px',
+                    padding: '12px',
                     fontSize: '14px',
-                    fontWeight: '500',
-                    cursor: 'pointer'
+                    fontWeight: '600',
+                    cursor: 'pointer',
+                    transition: 'all 0.3s ease',
+                    boxShadow: '0 2px 8px rgba(102, 126, 234, 0.3)'
+                  }}
+                  onMouseOver={(e) => {
+                    e.target.style.transform = 'translateY(-1px)';
+                    e.target.style.boxShadow = '0 4px 16px rgba(102, 126, 234, 0.4)';
+                  }}
+                  onMouseOut={(e) => {
+                    e.target.style.transform = 'translateY(0)';
+                    e.target.style.boxShadow = '0 2px 8px rgba(102, 126, 234, 0.3)';
                   }}
                 >
                   Appliquer
@@ -991,7 +1037,7 @@ const SearchPage = () => {
                       </div>
                     </div>
                     <div className="dashboard-company-card-info">
-                      <FontAwesomeIcon icon={faMapMarkerAlt} style={{ marginRight: 5, color: '#8c54bc' }} />
+                      <FontAwesomeIcon icon={faMapMarkerAlt} style={{ marginRight: 5, color: '#667eea' }} />
                       {e.adresse}
                     </div>
                     <div className="dashboard-company-card-info">
@@ -1009,13 +1055,16 @@ const SearchPage = () => {
                       <button 
                         onClick={() => navigate(`/voir-entreprise/${e.id}`)}
                         style={{ 
-                          background: "#8c54bc", 
+                          background: "linear-gradient(135deg, #667eea 0%, #764ba2 100%)", 
                           color: "#fff",
                           border: "none",
-                          borderRadius: "6px",
-                          padding: "8px 16px",
+                          borderRadius: "8px",
+                          padding: "10px 18px",
                           cursor: "pointer",
-                          fontSize: "14px"
+                          fontSize: "14px",
+                          fontWeight: "600",
+                          transition: "all 0.3s ease",
+                          boxShadow: "0 2px 8px rgba(102, 126, 234, 0.3)"
                         }}
                       >
                         Voir
@@ -1058,11 +1107,12 @@ const SearchPage = () => {
           ) : (
             /* Map View */
             <div style={{ 
-              background: 'white', 
-              borderRadius: '12px', 
+              background: 'linear-gradient(135deg, rgba(102, 126, 234, 0.03) 0%, rgba(118, 75, 162, 0.03) 100%)', 
+              borderRadius: '16px', 
               overflow: 'hidden',
-              boxShadow: '0 4px 12px rgba(0,0,0,0.1)',
-              height: '600px'
+              boxShadow: '0 8px 32px rgba(102, 126, 234, 0.08)',
+              height: '600px',
+              border: '1px solid rgba(102, 126, 234, 0.08)'
             }}>
               <MapContainer 
                 key={`${mapCenter[0]}-${mapCenter[1]}-${mapZoom}-${filteredEntreprises.length}`}
