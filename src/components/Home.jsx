@@ -7,7 +7,8 @@ import {
   faEnvelope,
   faSearch,
   faMapMarkerAlt,
-  faFileAlt
+  faFileAlt,
+  faUndo
 } from '@fortawesome/free-solid-svg-icons';
 import {
   faFacebookF,
@@ -37,13 +38,6 @@ const Home = () => {
   const [checkingAuth, setCheckingAuth] = useState(true);
   const navigate = useNavigate();
   
-  // Search filters
-  const [searchTerm, setSearchTerm] = useState('');
-  const [selectedSecteur, setSelectedSecteur] = useState('');
-  const [selectedVille, setSelectedVille] = useState('');
-  const [selectedForme, setSelectedForme] = useState('');
-  const [selectedCertification, setSelectedCertification] = useState('');
-
   // Calcul du nombre de responsables (utilisateurs avec le rôle responsable)
   const [responsableCount, setResponsableCount] = useState(0);
   useEffect(() => {
@@ -97,37 +91,6 @@ const Home = () => {
       .catch(() => setLoading(false));
   }, []);
 
-  // Filter companies based on search criteria
-  useEffect(() => {
-    let filtered = entreprises;
-
-    if (searchTerm) {
-      filtered = filtered.filter(e => 
-        e.nom_entreprise.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        e.adresse.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        e.activite.toLowerCase().includes(searchTerm.toLowerCase())
-      );
-    }
-
-    if (selectedSecteur) {
-      filtered = filtered.filter(e => e.secteur === selectedSecteur);
-    }
-
-    if (selectedVille) {
-      filtered = filtered.filter(e => e.ville === selectedVille);
-    }
-
-    if (selectedForme) {
-      filtered = filtered.filter(e => e.forme_juridique === selectedForme);
-    }
-
-    if (selectedCertification) {
-      filtered = filtered.filter(e => e.certifications.includes(selectedCertification));
-    }
-
-    setFilteredEntreprises(filtered);
-  }, [entreprises, searchTerm, selectedSecteur, selectedVille, selectedForme, selectedCertification]);
-
   // Get unique values for dropdowns
   const secteurs = [...new Set(entreprises.map(e => e.secteur))];
   const villes = [...new Set(entreprises.map(e => e.ville))];
@@ -154,16 +117,27 @@ const Home = () => {
       return [31.6295, -7.9811]; // Default to Marrakech
     }
     
-    const lats = filteredEntreprises.map(e => e.latitude);
-    const lons = filteredEntreprises.map(e => e.longitude);
+    // Filter out companies with invalid coordinates
+    const validCompanies = filteredEntreprises.filter(e => 
+      e.latitude && e.longitude && 
+      !isNaN(parseFloat(e.latitude)) && !isNaN(parseFloat(e.longitude)) &&
+      parseFloat(e.latitude) !== 0 && parseFloat(e.longitude) !== 0
+    );
+    
+    if (validCompanies.length === 0) {
+      return [31.6295, -7.9811]; // Default to Marrakech if no valid coordinates
+    }
+    
+    const lats = validCompanies.map(e => parseFloat(e.latitude));
+    const lons = validCompanies.map(e => parseFloat(e.longitude));
     
     // If filtering by a specific city, try to center more precisely
-    if (selectedVille && filteredEntreprises.length > 0) {
+    if (validCompanies.length > 0) {
       // Use the average of all companies in the selected city for better centering
-      const cityCompanies = filteredEntreprises.filter(e => e.ville === selectedVille);
+      const cityCompanies = validCompanies.filter(e => e.ville === validCompanies[0].ville); // Assuming the first company's city is representative
       if (cityCompanies.length > 0) {
-        const cityLats = cityCompanies.map(e => e.latitude);
-        const cityLons = cityCompanies.map(e => e.longitude);
+        const cityLats = cityCompanies.map(e => parseFloat(e.latitude));
+        const cityLons = cityCompanies.map(e => parseFloat(e.longitude));
         const centerLat = cityLats.reduce((sum, lat) => sum + lat, 0) / cityLats.length;
         const centerLon = cityLons.reduce((sum, lon) => sum + lon, 0) / cityLons.length;
         return [centerLat, centerLon];
@@ -180,14 +154,23 @@ const Home = () => {
   // Calculate appropriate zoom level based on filtered companies
   const calculateMapZoom = () => {
     if (filteredEntreprises.length === 0) return 12;
-    if (filteredEntreprises.length === 1) return 16; // Zoom in more for single company
+    
+    // Filter out companies with invalid coordinates
+    const validCompanies = filteredEntreprises.filter(e => 
+      e.latitude && e.longitude && 
+      !isNaN(parseFloat(e.latitude)) && !isNaN(parseFloat(e.longitude)) &&
+      parseFloat(e.latitude) !== 0 && parseFloat(e.longitude) !== 0
+    );
+    
+    if (validCompanies.length === 0) return 12;
+    if (validCompanies.length === 1) return 16; // Zoom in more for single company
     
     // If filtering by a specific city, zoom in more for city-level focus
-    if (selectedVille && filteredEntreprises.length > 0) {
-      const cityCompanies = filteredEntreprises.filter(e => e.ville === selectedVille);
+    if (validCompanies.length > 0) {
+      const cityCompanies = validCompanies.filter(e => e.ville === validCompanies[0].ville); // Assuming the first company's city is representative
       if (cityCompanies.length > 0) {
-        const cityLats = cityCompanies.map(e => e.latitude);
-        const cityLons = cityCompanies.map(e => e.longitude);
+        const cityLats = cityCompanies.map(e => parseFloat(e.latitude));
+        const cityLons = cityCompanies.map(e => parseFloat(e.longitude));
         const cityLatDiff = Math.max(...cityLats) - Math.min(...cityLats);
         const cityLonDiff = Math.max(...cityLons) - Math.min(...cityLons);
         const cityMaxDiff = Math.max(cityLatDiff, cityLonDiff);
@@ -200,8 +183,8 @@ const Home = () => {
       }
     }
     
-    const lats = filteredEntreprises.map(e => e.latitude);
-    const lons = filteredEntreprises.map(e => e.longitude);
+    const lats = validCompanies.map(e => parseFloat(e.latitude));
+    const lons = validCompanies.map(e => parseFloat(e.longitude));
     
     const latDiff = Math.max(...lats) - Math.min(...lats);
     const lonDiff = Math.max(...lons) - Math.min(...lons);
@@ -284,76 +267,101 @@ const Home = () => {
       {/* Search/Filter Section */}
       <div className="dashboard-search">
         <h2>Recherche d'entreprises</h2>
-        <div className="dashboard-search-fields">
-          <input 
-            className="dashboard-input" 
-            placeholder="Nom de l'entreprise, adresse, activité..." 
-            value={searchTerm}
-            onChange={(e) => setSearchTerm(e.target.value)}
-          />
-          <select 
-            className="dashboard-input"
-            value={selectedSecteur}
-            onChange={(e) => setSelectedSecteur(e.target.value)}
-          >
-            <option value="">Tous les secteurs</option>
-            {secteurs.map(s => <option key={s} value={s}>{s}</option>)}
-          </select>
-          <select 
-            className="dashboard-input"
-            value={selectedVille}
-            onChange={(e) => setSelectedVille(e.target.value)}
-          >
-            <option value="">Toutes les villes</option>
-            {villes.map(v => <option key={v} value={v}>{v}</option>)}
-          </select>
-          <select 
-            className="dashboard-input"
-            value={selectedForme}
-            onChange={(e) => setSelectedForme(e.target.value)}
-          >
-            <option value="">Toutes les formes</option>
-            {formes.map(f => <option key={f} value={f}>{f}</option>)}
-          </select>
-          <select 
-            className="dashboard-input"
-            value={selectedCertification}
-            onChange={(e) => setSelectedCertification(e.target.value)}
-          >
-            <option value="">Toutes les certifications</option>
-            {certifications.map(c => <option key={c} value={c}>{c}</option>)}
-          </select>
-        </div>
-        <div className="dashboard-search-actions">
-          <button 
-            style={{ background: "#8c54bc", color: "#fff" }}
-            onClick={() => {
-              setSearchTerm('');
-              setSelectedSecteur('');
-              setSelectedVille('');
-              setSelectedForme('');
-              setSelectedCertification('');
-              setFilteredEntreprises(entreprises);
-            }}
-          >
-            <FontAwesomeIcon icon={faSearch} style={{ marginRight: 8 }} />
-            Tout afficher
-          </button>
-          {canAddEntreprise && (
-            <Link to="/ajouter-entreprise" style={{ textDecoration: 'none' }}>
-              <button style={{ background: "#4fd1c5", color: "#fff" }}>
-                <FontAwesomeIcon icon={faUserGroup} style={{ marginRight: 8 }} />
-                Ajouter entreprise
+        <div style={{ 
+          display: 'flex', 
+          justifyContent: 'center', 
+          alignItems: 'center',
+          padding: '2rem',
+          background: 'linear-gradient(135deg, rgba(140, 84, 188, 0.1), rgba(124, 58, 237, 0.1))',
+          borderRadius: '12px',
+          border: '2px dashed rgba(140, 84, 188, 0.3)'
+        }}>
+          <div style={{ textAlign: 'center' }}>
+            <div style={{ 
+              fontSize: '4rem', 
+              marginBottom: '1rem',
+              color: '#8c54bc'
+            }}>
+              🔍
+            </div>
+            <h3 style={{ 
+              color: '#8c54bc', 
+              marginBottom: '1rem',
+              fontSize: '1.5rem'
+            }}>
+              Rechercher des entreprises
+            </h3>
+            <p style={{ 
+              color: '#666', 
+              marginBottom: '2rem',
+              fontSize: '1rem'
+            }}>
+              Utilisez nos outils de recherche avancés pour trouver les entreprises qui correspondent à vos critères
+            </p>
+            <div style={{ 
+              display: 'flex', 
+              gap: '1rem', 
+              justifyContent: 'center',
+              flexWrap: 'wrap'
+            }}>
+              <button 
+                onClick={() => navigate('/recherche-entreprises')}
+                style={{ 
+                  background: 'linear-gradient(135deg, #8c54bc, #7c3aed)',
+                  color: '#fff',
+                  border: 'none',
+                  borderRadius: '8px',
+                  padding: '12px 24px',
+                  fontSize: '1.1rem',
+                  fontWeight: '600',
+                  cursor: 'pointer',
+                  boxShadow: '0 4px 12px rgba(140, 84, 188, 0.3)',
+                  transition: 'all 0.3s ease'
+                }}
+                onMouseOver={(e) => {
+                  e.target.style.transform = 'translateY(-2px)';
+                  e.target.style.boxShadow = '0 6px 16px rgba(140, 84, 188, 0.4)';
+                }}
+                onMouseOut={(e) => {
+                  e.target.style.transform = 'translateY(0)';
+                  e.target.style.boxShadow = '0 4px 12px rgba(140, 84, 188, 0.3)';
+                }}
+              >
+                <FontAwesomeIcon icon={faSearch} style={{ marginRight: 8 }} />
+                Lancer la recherche
               </button>
-            </Link>
-          )}
-
-        </div>
-        {filteredEntreprises.length !== entreprises.length && (
-          <div style={{ color: '#4fd1c5', marginTop: 10 }}>
-            {filteredEntreprises.length} résultat(s) trouvé(s) sur {entreprises.length} entreprises
+              
+              {canAddEntreprise && (
+                <button 
+                  onClick={() => navigate('/ajouter-entreprise')}
+                  style={{ 
+                    background: 'linear-gradient(135deg, #4fd1c5, #38b2ac)',
+                    color: '#fff',
+                    border: 'none',
+                    borderRadius: '8px',
+                    padding: '12px 24px',
+                    fontSize: '1.1rem',
+                    fontWeight: '600',
+                    cursor: 'pointer',
+                    boxShadow: '0 4px 12px rgba(79, 209, 197, 0.3)',
+                    transition: 'all 0.3s ease'
+                  }}
+                  onMouseOver={(e) => {
+                    e.target.style.transform = 'translateY(-2px)';
+                    e.target.style.boxShadow = '0 6px 16px rgba(79, 209, 197, 0.4)';
+                  }}
+                  onMouseOut={(e) => {
+                    e.target.style.transform = 'translateY(0)';
+                    e.target.style.boxShadow = '0 4px 12px rgba(79, 209, 197, 0.3)';
+                  }}
+                >
+                  <FontAwesomeIcon icon={faBuilding} style={{ marginRight: 8 }} />
+                  Ajouter entreprise
+                </button>
+              )}
+            </div>
           </div>
-        )}
+        </div>
       </div>
 
       {/* Map and Quick Stats Section */}
@@ -372,10 +380,16 @@ const Home = () => {
                 url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
                 attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
               />
-              {filteredEntreprises.map((entreprise) => (
+              {filteredEntreprises
+                .filter(entreprise => 
+                  entreprise.latitude && entreprise.longitude && 
+                  !isNaN(parseFloat(entreprise.latitude)) && !isNaN(parseFloat(entreprise.longitude)) &&
+                  parseFloat(entreprise.latitude) !== 0 && parseFloat(entreprise.longitude) !== 0
+                )
+                .map((entreprise) => (
                 <Marker 
                   key={entreprise.id} 
-                  position={[entreprise.latitude, entreprise.longitude]}
+                  position={[parseFloat(entreprise.latitude), parseFloat(entreprise.longitude)]}
                 >
                   <Popup>
                     <div style={{ minWidth: '200px' }}>
@@ -404,94 +418,6 @@ const Home = () => {
             </MapContainer>
           </div>
         </div>
-      </div>
-
-      {/* Company Cards Grid */}
-      <div className="dashboard-cards">
-        {loading ? (
-          <div style={{ color: '#fff', fontSize: 18 }}>Chargement...</div>
-        ) : filteredEntreprises.length === 0 ? (
-          <div style={{ color: '#fff', fontSize: 18 }}>
-            {entreprises.length === 0 ? 'Aucune entreprise trouvée.' : 'Aucune entreprise ne correspond à vos critères de recherche.'}
-          </div>
-        ) : (
-          filteredEntreprises.map((e) => (
-            <div key={e.id} className="dashboard-company-card">
-              <div className="dashboard-company-card-header">
-                <img 
-                  src={`https://placehold.co/60x60?text=${encodeURIComponent(e.nom_entreprise.charAt(0))}`} 
-                  alt="Logo" 
-                  className="dashboard-company-card-logo" 
-                />
-                <div>
-                  <div className="dashboard-company-card-title">{e.nom_entreprise}</div>
-                  <div className="dashboard-company-card-sector">Secteur: {e.secteur}</div>
-                </div>
-              </div>
-              <div className="dashboard-company-card-info">
-                <FontAwesomeIcon icon={faMapMarkerAlt} style={{ marginRight: 5, color: '#8c54bc' }} />
-                {e.adresse}
-              </div>
-              <div className="dashboard-company-card-info">
-                <FontAwesomeIcon icon={faPhoneAlt} style={{ marginRight: 5, color: '#4fd1c5' }} />
-                {e.tel || 'N/A'}
-              </div>
-              <div className="dashboard-company-card-info">
-                <FontAwesomeIcon icon={faEnvelope} style={{ marginRight: 5, color: '#a78bfa' }} />
-                {e.email}
-              </div>
-              <div className="dashboard-company-card-info">
-                <strong>Forme:</strong> {e.forme_juridique} | <strong>Type:</strong> {e.type}
-              </div>
-              <div className="dashboard-company-card-actions">
-                <button 
-                  onClick={() => navigate(`/voir-entreprise/${e.id}`)}
-                  style={{ 
-                    background: "#8c54bc", 
-                    color: "#fff",
-                    border: "none",
-                    borderRadius: "6px",
-                    padding: "8px 16px",
-                    cursor: "pointer",
-                    fontSize: "14px"
-                  }}
-                >
-                  Voir
-                </button>
-                <button 
-                  onClick={() => navigate(`/modifier-entreprise/${e.id}`)}
-                  style={{ 
-                    background: "#4fd1c5", 
-                    color: "#fff",
-                    border: "none",
-                    borderRadius: "6px",
-                    padding: "8px 16px",
-                    cursor: "pointer",
-                    fontSize: "14px"
-                  }}
-                >
-                  Modifier
-                </button>
-                <button 
-                  onClick={() => handleDelete(e.id, e.nom_entreprise)}
-                  disabled={deletingId === e.id}
-                  style={{ 
-                    background: deletingId === e.id ? "#6b7280" : "#e53e3e", 
-                    color: "#fff",
-                    border: "none",
-                    borderRadius: "6px",
-                    padding: "8px 16px",
-                    cursor: deletingId === e.id ? "not-allowed" : "pointer",
-                    fontSize: "14px",
-                    opacity: deletingId === e.id ? 0.6 : 1
-                  }}
-                >
-                  {deletingId === e.id ? 'Suppression...' : 'Supprimer'}
-                </button>
-              </div>
-            </div>
-          ))
-        )}
       </div>
 
       {/* Section Accès rapide par secteur */}
@@ -710,6 +636,110 @@ const Home = () => {
             </Link>
             );
           })}
+        </div>
+      </div>
+
+      {/* Section Liste des entreprises */}
+      <div className="dashboard-entreprises">
+        <h2 style={{ 
+          textAlign: 'center', 
+          color: '#8c54bc', 
+          fontSize: '2rem', 
+          fontWeight: '700', 
+          marginBottom: '2rem',
+          textShadow: '0 2px 4px rgba(140, 84, 188, 0.3)'
+        }}>
+          Liste des entreprises
+        </h2>
+        
+        {/* Company Cards Grid */}
+        <div className="dashboard-cards">
+          {loading ? (
+            <div style={{ color: '#fff', fontSize: 18, textAlign: 'center', padding: '2rem' }}>
+              Chargement des entreprises...
+            </div>
+          ) : filteredEntreprises.length === 0 ? (
+            <div style={{ color: '#fff', fontSize: 18, textAlign: 'center', padding: '2rem' }}>
+              {entreprises.length === 0 ? 'Aucune entreprise trouvée.' : 'Aucune entreprise ne correspond à vos critères de recherche.'}
+            </div>
+          ) : (
+            filteredEntreprises.map((e) => (
+              <div key={e.id} className="dashboard-company-card">
+                <div className="dashboard-company-card-header">
+                  <img 
+                    src={`https://placehold.co/60x60?text=${encodeURIComponent(e.nom_entreprise.charAt(0))}`} 
+                    alt="Logo" 
+                    className="dashboard-company-card-logo" 
+                  />
+                  <div>
+                    <div className="dashboard-company-card-title">{e.nom_entreprise}</div>
+                    <div className="dashboard-company-card-sector">Secteur: {e.secteur}</div>
+                  </div>
+                </div>
+                <div className="dashboard-company-card-info">
+                  <FontAwesomeIcon icon={faMapMarkerAlt} style={{ marginRight: 5, color: '#8c54bc' }} />
+                  {e.adresse}
+                </div>
+                <div className="dashboard-company-card-info">
+                  <FontAwesomeIcon icon={faPhoneAlt} style={{ marginRight: 5, color: '#4fd1c5' }} />
+                  {e.tel || 'N/A'}
+                </div>
+                <div className="dashboard-company-card-info">
+                  <FontAwesomeIcon icon={faEnvelope} style={{ marginRight: 5, color: '#a78bfa' }} />
+                  {e.email}
+                </div>
+                <div className="dashboard-company-card-info">
+                  <strong>Forme:</strong> {e.forme_juridique} | <strong>Type:</strong> {e.type}
+                </div>
+                <div className="dashboard-company-card-actions">
+                  <button 
+                    onClick={() => navigate(`/voir-entreprise/${e.id}`)}
+                    style={{ 
+                      background: "#8c54bc", 
+                      color: "#fff",
+                      border: "none",
+                      borderRadius: "6px",
+                      padding: "8px 16px",
+                      cursor: "pointer",
+                      fontSize: "14px"
+                    }}
+                  >
+                    Voir
+                  </button>
+                  <button 
+                    onClick={() => navigate(`/modifier-entreprise/${e.id}`)}
+                    style={{ 
+                      background: "#4fd1c5", 
+                      color: "#fff",
+                      border: "none",
+                      borderRadius: "6px",
+                      padding: "8px 16px",
+                      cursor: "pointer",
+                      fontSize: "14px"
+                    }}
+                  >
+                    Modifier
+                  </button>
+                  <button 
+                    onClick={() => handleDelete(e.id, e.nom_entreprise)}
+                    disabled={deletingId === e.id}
+                    style={{ 
+                      background: deletingId === e.id ? "#6b7280" : "#e53e3e", 
+                      color: "#fff",
+                      border: "none",
+                      borderRadius: "6px",
+                      padding: "8px 16px",
+                      cursor: deletingId === e.id ? "not-allowed" : "pointer",
+                      fontSize: "14px",
+                      opacity: deletingId === e.id ? 0.6 : 1
+                    }}
+                  >
+                    {deletingId === e.id ? 'Suppression...' : 'Supprimer'}
+                  </button>
+                </div>
+              </div>
+            ))
+          )}
         </div>
       </div>
     </div>

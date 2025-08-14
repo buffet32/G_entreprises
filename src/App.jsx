@@ -8,6 +8,7 @@ import HeaderM from './components/HeaderM';
 import HomeD from './components/HomeD';
 import HomeM from './components/HomeM';
 import Home from './components/Home';
+import SearchPage from './components/SearchPage';
 import Footer from './components/Footer';
 import Signin from './components/Signin'
 import Signup from './components/Signup'
@@ -59,6 +60,7 @@ function App() {
             <Route path="/secteur/:secteur" element={<Secteur />} />
             <Route path="/ville/:ville" element={<Ville />} />
             <Route path="/admin-dashboard" element={<AdminDashboard />} />
+            <Route path='/recherche-entreprises' element={<SearchPage />} />
           </Routes>
         </div>
         <Footer/>
