@@ -109,7 +109,34 @@ const AdashM = () => {
 
     return (
         <div className="container mt-4">
-            <h1 id='bnr'>Utilisateurs</h1>
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '2rem' }}>
+                <h1 id='bnr'>Utilisateurs</h1>
+                <button
+                    style={{ 
+                        background: 'linear-gradient(135deg, #8c54bc, #4fd1c5)', 
+                        color: '#fff', 
+                        border: 'none',
+                        borderRadius: '12px', 
+                        padding: '12px 24px', 
+                        cursor: 'pointer',
+                        fontSize: '1rem',
+                        fontWeight: '600',
+                        transition: 'all 0.3s ease',
+                        boxShadow: '0 4px 16px rgba(0,0,0,0.1)'
+                    }}
+                    onMouseEnter={(e) => {
+                        e.target.style.transform = 'translateY(-2px)';
+                        e.target.style.boxShadow = '0 8px 24px rgba(0,0,0,0.2)';
+                    }}
+                    onMouseLeave={(e) => {
+                        e.target.style.transform = 'translateY(0)';
+                        e.target.style.boxShadow = '0 4px 16px rgba(0,0,0,0.1)';
+                    }}
+                    onClick={() => navigate('/admin-dashboard')}
+                >
+                    📊 Tableau de Bord
+                </button>
+            </div>
             <div className="input-group mb-4" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                 <form className="form-inline" style={{ flex: 1 }}>
                     <label>Recherche<FontAwesomeIcon className='mx-2' icon={faMagnifyingGlass} /></label>

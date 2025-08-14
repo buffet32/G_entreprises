@@ -34,6 +34,7 @@ const Home = () => {
   const [filteredEntreprises, setFilteredEntreprises] = useState([]);
   const [loading, setLoading] = useState(true);
   const [deletingId, setDeletingId] = useState(null);
+  const [checkingAuth, setCheckingAuth] = useState(true);
   const navigate = useNavigate();
   
   // Search filters
@@ -48,24 +49,38 @@ const Home = () => {
   useEffect(() => {
     const storedUser = localStorage.getItem('user');
     if (storedUser) {
-      const parsed = JSON.parse(storedUser);
-      const token = parsed.access || (parsed.user && parsed.user.access) || parsed.access_token;
-      if (token) {
-        fetch('http://127.0.0.1:8000/api/users/?role=responsable', {
-          headers: { Authorization: `Bearer ${token}` }
-        })
-          .then(res => res.json())
-          .then(data => {
-            if (Array.isArray(data)) {
-              setResponsableCount(data.length);
-            } else if (data.results) {
-              setResponsableCount(data.results.length);
-            }
+      try {
+        const parsed = JSON.parse(storedUser);
+        const user = parsed.user || parsed;
+        
+        // Check if user is admin and redirect to admin dashboard
+        if (user.role === 'admin') {
+          navigate('/admin-dashboard');
+          return;
+        }
+        
+        setCheckingAuth(false);
+        
+        const token = parsed.access || (parsed.user && parsed.user.access) || parsed.access_token;
+        if (token) {
+          fetch('http://127.0.0.1:8000/api/users/?role=responsable', {
+            headers: { Authorization: `Bearer ${token}` }
           })
-          .catch(() => setResponsableCount(0));
+            .then(res => res.json())
+            .then(data => {
+              if (Array.isArray(data)) {
+                setResponsableCount(data.length);
+              } else if (data.results) {
+                setResponsableCount(data.results.length);
+              }
+            })
+            .catch(() => setResponsableCount(0));
+        }
+      } catch (error) {
+        console.error('Error parsing user data:', error);
       }
     }
-  }, []);
+  }, [navigate]);
   // Calcul du nombre d'entreprises récemment ajoutées (7 derniers jours)
   const now = new Date();
   const sevenDaysAgo = new Date(now.getTime() - 7 * 24 * 60 * 60 * 1000);
@@ -577,7 +592,7 @@ const Home = () => {
                     pointerEvents: 'none'
                   }}
                 />
-              </Link>
+            </Link>
             );
           })}
         </div>
@@ -677,7 +692,7 @@ const Home = () => {
                   }}
                 >
                   {companyCount} entreprise{companyCount > 1 ? 's' : ''}
-                </div>
+              </div>
                 <div 
                   className="dashboard-ville-overlay"
                   style={{
@@ -692,7 +707,7 @@ const Home = () => {
                     pointerEvents: 'none'
                   }}
                 />
-              </Link>
+            </Link>
             );
           })}
         </div>

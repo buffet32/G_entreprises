@@ -20,6 +20,7 @@ import AjouterUtilisateur from './components/AjouterUtilisateur';
 import ModifierUtilisateur from './components/ModifierUtilisateur';
 import Secteur from './components/Secteur';
 import Ville from './components/Ville';
+import AdminDashboard from './components/AdminDashboard';
 
 function App() {
 
@@ -57,6 +58,7 @@ function App() {
             <Route path="/modifier-utilisateur/:id" element={<ModifierUtilisateur />} />
             <Route path="/secteur/:secteur" element={<Secteur />} />
             <Route path="/ville/:ville" element={<Ville />} />
+            <Route path="/admin-dashboard" element={<AdminDashboard />} />
           </Routes>
         </div>
         <Footer/>
