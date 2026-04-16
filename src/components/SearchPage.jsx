@@ -1069,36 +1069,40 @@ const SearchPage = () => {
                       >
                         Voir
                       </button>
-                      <button 
-                        onClick={() => navigate(`/modifier-entreprise/${e.id}`)}
-                        style={{ 
-                          background: "#4fd1c5", 
-                          color: "#fff",
-                          border: "none",
-                          borderRadius: "6px",
-                          padding: "8px 16px",
-                          cursor: "pointer",
-                          fontSize: "14px"
-                        }}
-                      >
-                        Modifier
-                      </button>
-                      <button 
-                        onClick={() => handleDelete(e.id, e.nom_entreprise)}
-                        disabled={deletingId === e.id}
-                        style={{ 
-                          background: deletingId === e.id ? "#6b7280" : "#e53e3e", 
-                          color: "#fff",
-                          border: "none",
-                          borderRadius: "6px",
-                          padding: "8px 16px",
-                          cursor: deletingId === e.id ? "not-allowed" : "pointer",
-                          fontSize: "14px",
-                          opacity: deletingId === e.id ? 0.6 : 1
-                        }}
-                      >
-                        {deletingId === e.id ? 'Suppression...' : 'Supprimer'}
-                      </button>
+                      {isAdmin && (
+                        <button 
+                          onClick={() => navigate(`/modifier-entreprise/${e.id}`)}
+                          style={{ 
+                            background: "#4fd1c5", 
+                            color: "#fff",
+                            border: "none",
+                            borderRadius: "6px",
+                            padding: "8px 16px",
+                            cursor: "pointer",
+                            fontSize: "14px"
+                          }}
+                        >
+                          Modifier
+                        </button>
+                      )}
+                      {isAdmin && (
+                        <button 
+                          onClick={() => handleDelete(e.id, e.nom_entreprise)}
+                          disabled={deletingId === e.id}
+                          style={{ 
+                            background: deletingId === e.id ? "#6b7280" : "#e53e3e", 
+                            color: "#fff",
+                            border: "none",
+                            borderRadius: "6px",
+                            padding: "8px 16px",
+                            cursor: deletingId === e.id ? "not-allowed" : "pointer",
+                            fontSize: "14px",
+                            opacity: deletingId === e.id ? 0.6 : 1
+                          }}
+                        >
+                          {deletingId === e.id ? 'Suppression...' : 'Supprimer'}
+                        </button>
+                      )}
                     </div>
                   </div>
                 ))

@@ -80,13 +80,28 @@ html {
 
 
 #sdropdown{
-    color: #f6f9fc;
+    color: #333;
     
 
 }
 #sdropdown:hover{
     color: #8c54bc;
-    background-color: transparent;
+    background-color: rgba(140, 84, 188, 0.1);
+    transition: all 0.3s ease;
+    transform: translateX(5px);
+}
+
+/* Active state for navbar items */
+.sidenav-link.active {
+    color: #8c54bc !important;
+    background-color: rgba(140, 84, 188, 0.15) !important;
+    border-radius: 8px;
+    font-weight: 600;
+    box-shadow: 0 2px 8px rgba(140, 84, 188, 0.3);
+}
+
+.sidenav-link.active #nav_items {
+    color: #8c54bc !important;
 }
 
 #main-navbar {

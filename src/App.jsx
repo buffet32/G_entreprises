@@ -22,6 +22,11 @@ import ModifierUtilisateur from './components/ModifierUtilisateur';
 import Secteur from './components/Secteur';
 import Ville from './components/Ville';
 import AdminDashboard from './components/AdminDashboard';
+import AIFeatures from './components/AIFeatures';
+import AIInterpretation from './components/AIInterpretation';
+import PremiumDashboard from './components/PremiumDashboard';
+import PremiumAccess from './components/PremiumAccess';
+import RegionalDashboard from './components/RegionalDashboard';
 
 function App() {
 
@@ -60,6 +65,11 @@ function App() {
             <Route path="/secteur/:secteur" element={<Secteur />} />
             <Route path="/ville/:ville" element={<Ville />} />
             <Route path="/admin-dashboard" element={<AdminDashboard />} />
+            <Route path='/ai-features' element={<AIFeatures />} />
+            <Route path='/ai-interpretation' element={<AIInterpretation />} />
+            <Route path='/premium-dashboard' element={<PremiumDashboard />} />
+            <Route path='/premium-access' element={<PremiumAccess />} />
+            <Route path='/regional-dashboard' element={<RegionalDashboard />} />
             <Route path='/recherche-entreprises' element={<SearchPage />} />
           </Routes>
         </div>

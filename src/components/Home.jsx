@@ -38,6 +38,10 @@ const Home = () => {
   const [checkingAuth, setCheckingAuth] = useState(true);
   const navigate = useNavigate();
   
+  // User authentication state
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [isResponsable, setIsResponsable] = useState(false);
+  
   // Calcul du nombre de responsables (utilisateurs avec le rôle responsable)
   const [responsableCount, setResponsableCount] = useState(0);
   useEffect(() => {
@@ -46,6 +50,10 @@ const Home = () => {
       try {
         const parsed = JSON.parse(storedUser);
         const user = parsed.user || parsed;
+        
+        // Set user authentication states
+        setIsLoggedIn(true);
+        setIsResponsable(user && user.role === 'responsable');
         
         // Check if user is admin and redirect to admin dashboard
         if (user.role === 'admin') {
@@ -73,6 +81,11 @@ const Home = () => {
       } catch (error) {
         console.error('Error parsing user data:', error);
       }
+    } else {
+      // Guest user (not logged in)
+      setIsLoggedIn(false);
+      setIsResponsable(false);
+      setCheckingAuth(false);
     }
   }, [navigate]);
   // Calcul du nombre d'entreprises récemment ajoutées (7 derniers jours)
@@ -706,36 +719,40 @@ const Home = () => {
                   >
                     Voir
                   </button>
-                  <button 
-                    onClick={() => navigate(`/modifier-entreprise/${e.id}`)}
-                    style={{ 
-                      background: "#4fd1c5", 
-                      color: "#fff",
-                      border: "none",
-                      borderRadius: "6px",
-                      padding: "8px 16px",
-                      cursor: "pointer",
-                      fontSize: "14px"
-                    }}
-                  >
-                    Modifier
-                  </button>
-                  <button 
-                    onClick={() => handleDelete(e.id, e.nom_entreprise)}
-                    disabled={deletingId === e.id}
-                    style={{ 
-                      background: deletingId === e.id ? "#6b7280" : "#e53e3e", 
-                      color: "#fff",
-                      border: "none",
-                      borderRadius: "6px",
-                      padding: "8px 16px",
-                      cursor: deletingId === e.id ? "not-allowed" : "pointer",
-                      fontSize: "14px",
-                      opacity: deletingId === e.id ? 0.6 : 1
-                    }}
-                  >
-                    {deletingId === e.id ? 'Suppression...' : 'Supprimer'}
-                  </button>
+                  {(isLoggedIn || isAdmin) && (
+                    <button 
+                      onClick={() => navigate(`/modifier-entreprise/${e.id}`)}
+                      style={{ 
+                        background: "#4fd1c5", 
+                        color: "#fff",
+                        border: "none",
+                        borderRadius: "6px",
+                        padding: "8px 16px",
+                        cursor: "pointer",
+                        fontSize: "14px"
+                      }}
+                    >
+                      Modifier
+                    </button>
+                  )}
+                  {(isLoggedIn || isAdmin) && (
+                    <button 
+                      onClick={() => handleDelete(e.id, e.nom_entreprise)}
+                      disabled={deletingId === e.id}
+                      style={{ 
+                        background: deletingId === e.id ? "#6b7280" : "#e53e3e", 
+                        color: "#fff",
+                        border: "none",
+                        borderRadius: "6px",
+                        padding: "8px 16px",
+                        cursor: deletingId === e.id ? "not-allowed" : "pointer",
+                        fontSize: "14px",
+                        opacity: deletingId === e.id ? 0.6 : 1
+                      }}
+                    >
+                      {deletingId === e.id ? 'Suppression...' : 'Supprimer'}
+                    </button>
+                  )}
                 </div>
               </div>
             ))

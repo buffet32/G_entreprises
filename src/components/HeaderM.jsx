@@ -12,14 +12,20 @@ import { faUser } from '@fortawesome/free-solid-svg-icons'
 import { faUserGear } from '@fortawesome/free-solid-svg-icons'
 import { faUserGroup } from '@fortawesome/free-solid-svg-icons'
 import { faArrowLeft } from '@fortawesome/free-solid-svg-icons'
+import { faBrain } from '@fortawesome/free-solid-svg-icons'
+import { faCrown } from '@fortawesome/free-solid-svg-icons'
+import { faChartBar } from '@fortawesome/free-solid-svg-icons'
+import { faLightbulb } from '@fortawesome/free-solid-svg-icons'
 
 
 const HeaderM = () => {
 
     const [windowWidth, setWindowWidth] = useState(window.innerWidth);
     const [isAdmin, setIsAdmin] = useState(false);
+    const [isPremium, setIsPremium] = useState(false);
     const navigate = useNavigate();
     const [dropdownVisible, setDropdownVisible] = useState(false);
+    const [premiumDropdownVisible, setPremiumDropdownVisible] = useState(false);
     const storedUser = localStorage.getItem('user');
 
     const toggleDropdown = () => {
@@ -45,6 +51,24 @@ const HeaderM = () => {
         }
     };
 
+    const togglePremiumDropdown = () => {
+        const dropdown = document.getElementById('premium-dropdown-menu');
+    
+        if (premiumDropdownVisible) {
+            dropdown.classList.add('slide-exit');
+            setTimeout(() => {
+                setPremiumDropdownVisible(false);
+                dropdown.classList.remove('slide-exit');
+            }, 300);
+        } else {
+            setPremiumDropdownVisible(true);
+            dropdown.classList.add('slide-enter2');
+            setTimeout(() => {
+                dropdown.classList.remove('slide-enter2');
+            }, 300);
+        }
+    };
+
 
     useEffect(() => {
       const handleResize = () => {
@@ -64,6 +88,7 @@ const HeaderM = () => {
         try {
           const user = JSON.parse(storedUser).user;
           setIsAdmin(user && user.role === 'admin');
+          setIsPremium(user && (user.is_premium || user.subscription_type === 'premium'));
         } catch {}
       }
     }, []);
@@ -73,6 +98,27 @@ const HeaderM = () => {
     localStorage.removeItem("user");
    
     navigate('/');
+};
+
+const handlePremiumClick = () => {
+    const storedUser = localStorage.getItem('user');
+    
+    if (storedUser) {
+        try {
+            const user = JSON.parse(storedUser).user;
+            const premiumStatus = user && (user.is_premium || user.subscription_type === 'premium');
+            
+            if (premiumStatus) {
+                navigate('/premium-dashboard');
+            } else {
+                navigate('/premium-access');
+            }
+        } catch (error) {
+            navigate('/premium-access');
+        }
+    } else {
+        navigate('/premium-access');
+    }
 };
 
     let srcimage = logo
@@ -117,6 +163,50 @@ const HeaderM = () => {
                       Compte
                     </a>
                   </li>
+                  <li className="nav-item dropdown">
+                    <a id="sdropdown" className="d-flex justify-content-between dropdown-item dropdown-toggle" 
+                       onClick={togglePremiumDropdown}
+                       aria-expanded={premiumDropdownVisible}>
+                      <span>
+                        <FontAwesomeIcon className="mr-2" icon={faCrown} />
+                        Premium
+                      </span>
+                    </a>
+                    <ul
+                      id="premium-dropdown-menu"
+                      className={`dropdown-menu dropdown-menu-right ${premiumDropdownVisible ? 'slide-enter2' : 'slide-exit'}`}
+                      aria-labelledby="premiumDropdown"
+                      style={{ display: premiumDropdownVisible ? 'block' : 'none', position: 'absolute', left: '100%', top: '0' }}
+                    >
+                      <li>
+                        <a id="sdropdown" onClick={handlePremiumClick} className="d-flex justify-content-start dropdown-item">
+                          <FontAwesomeIcon className="mr-2" icon={faBrain} />
+                          Accès Premium
+                        </a>
+                      </li>
+                      <li>
+                        <a id="sdropdown" href="/ai-features?tab=activity" className="d-flex justify-content-start dropdown-item">
+                          <FontAwesomeIcon className="mr-2" icon={faBrain} />
+                          Interprétation IA
+                        </a>
+                      </li>
+                      <li>
+                        <a id="sdropdown" href="/ai-interpretation?tab=market" className="d-flex justify-content-start dropdown-item">
+                          <FontAwesomeIcon className="mr-2" icon={faLightbulb} />
+                          Insights
+                        </a>
+                      </li>
+                    </ul>
+                  </li>
+                  {isPremium && (
+                    <li>
+                      <a id="sdropdown" href="/premium-dashboard" className="d-flex justify-content-start dropdown-item">
+                        
+                        <FontAwesomeIcon className="mr-2" id="logout-m " icon={faCrown} />
+                        IA Premium
+                      </a>
+                    </li>
+                  )}
                   {isAdmin ? (
                     <>
                       <li>

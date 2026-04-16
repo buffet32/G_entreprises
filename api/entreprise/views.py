@@ -5,8 +5,6 @@ from .serializers import EntrepriseSerializer
 from rest_framework import generics
 from .serializers import UserRegisterSerializer
 from rest_framework.permissions import AllowAny, IsAuthenticated, BasePermission, IsAdminUser
-from rest_framework_simplejwt.views import TokenObtainPairView
-from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 from .serializers import CustomUserSerializer
 from django.contrib.auth import authenticate
 from .serializers import CustomUserAdminSerializer
@@ -32,28 +30,6 @@ class UserRegisterView(generics.CreateAPIView):
     serializer_class = UserRegisterSerializer
     permission_classes = [AllowAny]
 
-class MyTokenObtainPairSerializer(TokenObtainPairSerializer):
-    @classmethod
-    def get_token(cls, user):
-        token = super().get_token(user)
-        return token
-
-    def validate(self, attrs):
-        username = attrs.get('username', None)
-        password = attrs.get('password')
-        user = None
-        if username:
-            user = authenticate(request=self.context.get('request'), username=username, password=password)
-        if not user:
-            from rest_framework.exceptions import AuthenticationFailed
-            raise AuthenticationFailed('Aucun utilisateur trouvé avec ces identifiants.')
-        refresh = self.get_token(user)
-        data = {'refresh': str(refresh), 'access': str(refresh.access_token)}
-        data['user'] = CustomUserSerializer(user).data
-        return data
-
-class MyTokenObtainPairView(TokenObtainPairView):
-    serializer_class = MyTokenObtainPairSerializer
 
 class CustomUserAdminViewSet(viewsets.ModelViewSet):
     queryset = CustomUser.objects.all().order_by('-date_joined')

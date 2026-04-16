@@ -21,6 +21,14 @@ A modern web application for managing companies with geolocation features, built
 - **Data Validation**: Comprehensive input validation
 - **API Documentation**: Interactive API docs
 
+### AI Premium Features 🤖
+- **Region Profitability Prediction**: AI-powered analysis of most profitable activities by region
+- **Activity Location Suggestion**: Find optimal regions for specific business activities
+- **AI Chatbot**: Intelligent assistant for entrepreneurship questions and advice
+- **Data Interpretation**: Upload files and get AI-powered insights and recommendations
+- **Market Intelligence**: Real-time market trends and opportunities analysis
+- **Premium Dashboard**: Centralized access to all AI features with usage statistics
+
 ## 🚀 Quick Start
 
 ### Prerequisites
@@ -219,6 +227,11 @@ npm test  # If test setup is configured
 - `GET /api/entreprises/{id}/` - Get specific company
 - `PUT /api/entreprises/{id}/` - Update company
 - `DELETE /api/entreprises/{id}/` - Delete company
+
+### Premium AI Routes
+- `/premium-dashboard` - Main premium dashboard with AI features overview
+- `/ai-features` - AI prediction and chatbot features
+- `/ai-interpretation` - Data analysis and market insights
 
 ### Example API Usage
 
